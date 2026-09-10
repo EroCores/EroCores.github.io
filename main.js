@@ -389,6 +389,7 @@
                             }
                         }
                         Notification.show();
+                        CookieConsent.show();                      
                     }, 400);
                 } else {
                     if (bar) bar.style.width = progress + '%';
@@ -1018,6 +1019,119 @@
             update();
         }
     };
+          /* ============================================================
+       08.5 · KVKK ÇEREZ ONAYI YÖNETİMİ
+       ============================================================ */
+    const CookieConsent = {
+        STORAGE_KEY: 'erocore_cookie_consent',
+        VERSION: '1.0',
+        banner: null,
+        acceptBtn: null,
+        rejectBtn: null,
+        settingsBtn: null,
+        pendingShow: false,
+
+        init() {
+            this.banner = document.getElementById('cookieBanner');
+            this.acceptBtn = document.getElementById('cookieAcceptAll');
+            this.rejectBtn = document.getElementById('cookieRejectAll');
+            this.settingsBtn = document.getElementById('cookieSettingsBtn');
+
+            if (!this.banner) return;
+
+            this.setupListeners();
+            this.applyExistingConsent();
+        },
+
+        getConsent() {
+            try {
+                const raw = localStorage.getItem(this.STORAGE_KEY);
+                if (!raw) return null;
+                const data = JSON.parse(raw);
+                if (!data || data.version !== this.VERSION) return null;
+                return data;
+            } catch (e) {
+                return null;
+            }
+        },
+
+        saveConsent(choice) {
+            const data = {
+                version: this.VERSION,
+                choice: choice,
+                timestamp: new Date().toISOString()
+            };
+            try {
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                console.warn('[EroCore] Cookie consent kaydedilemedi:', e);
+            }
+
+            if (typeof window.gtag === 'function') {
+                window.gtag('consent', 'update', {
+                    'analytics_storage': choice === 'all' ? 'granted' : 'denied',
+                    'ad_storage': choice === 'all' ? 'granted' : 'denied',
+                    'ad_user_data': choice === 'all' ? 'granted' : 'denied',
+                    'ad_personalization': choice === 'all' ? 'granted' : 'denied'
+                });
+            }
+        },
+
+        applyExistingConsent() {
+            const existing = this.getConsent();
+            if (!existing) return;
+
+            if (typeof window.gtag === 'function') {
+                window.gtag('consent', 'update', {
+                    'analytics_storage': existing.choice === 'all' ? 'granted' : 'denied',
+                    'ad_storage': existing.choice === 'all' ? 'granted' : 'denied'
+                });
+            }
+
+            if (this.settingsBtn) {
+                this.settingsBtn.classList.add('show');
+            }
+        },
+
+        show() {
+            if (!this.banner) return;
+            if (this.getConsent()) return; // Zaten onay verilmişse gösterme
+            this.banner.classList.add('show');
+            document.body.classList.add('cookie-visible');
+        },
+
+        hide() {
+            if (!this.banner) return;
+            this.banner.classList.remove('show');
+            document.body.classList.remove('cookie-visible');
+            if (this.settingsBtn) {
+                setTimeout(() => {
+                    this.settingsBtn.classList.add('show');
+                }, 400);
+            }
+        },
+
+        setupListeners() {
+            if (this.acceptBtn) {
+                this.acceptBtn.addEventListener('click', () => {
+                    this.saveConsent('all');
+                    this.hide();
+                });
+            }
+            if (this.rejectBtn) {
+                this.rejectBtn.addEventListener('click', () => {
+                    this.saveConsent('essential');
+                    this.hide();
+                });
+            }
+            if (this.settingsBtn) {
+                this.settingsBtn.addEventListener('click', () => {
+                    this.banner.classList.add('show');
+                    document.body.classList.add('cookie-visible');
+                });
+            }
+        }
+    };
 
     /* ============================================================
        09 · UI ETKİLEŞİMLERİ (Nav, Drawer, SSS, Scroll Bar)
@@ -1198,6 +1312,7 @@
         animate();
         Splash.init();
         Notification.init();
+        CookieConsent.init();
         QuoteEngine.init();
         LegacyCalculator.init();
         UI.init();
