@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="EroCore Web Studio — İşletmenize özel modern web tasarımı, 3D interaktif deneyimler ve profesyonel geliştirme hizmetleri. Ücretsiz demo ile başlayın.">
+    <meta name="theme-color" content="#05080f">
+    <title>EroCore Web Studio — Geleceğin Web Deneyimi & Fiyatlandırma Teklifi</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Google Fonts: Space Grotesk & Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Three.js ve GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Ultra Lüks CSS Mimarisi -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ============ SAYFA SCROLL İLERLEME ÇUBUĞU ============ -->
+    <div id="scrollProgressBar"></div>
+
+    <!-- ============ 3D WEBGL ARKA PLAN SAHNESİ ============ -->
+    <div id="canvas-container"></div>
+    <div class="bg-ambient-layer"></div>
+
+    <!-- ============ SPLASH SCREEN / LOADER ============ -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="splash-shell">
+            <div class="splash-avatar-wrap">
+                <img src="logo.png" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='assets/images/logo.png';}" alt="EroCore Logo" class="splash-avatar">
+                <div class="splash-avatar-ring"></div>
+            </div>
+            <div class="splash-brand">EroCore Web Studio</div>
+            <div class="splash-title">Dijital Vitrininiz Hazırlanıyor</div>
+            <div class="splash-progress-wrap">
+                <div class="splash-progress-bar" id="splash-progress-bar"></div>
+            </div>
+            <div class="splash-percent" id="splash-percent">0%</div>
+        </div>
+    </div>
+
+    <!-- ============ BİLDİRİM TOAST ============ -->
+    <div class="notification" id="notification">
+        <span class="notif-icon">🎯</span>
+        <div style="flex:1; min-width:0;">
+            <div class="notif-title">Websitemize Hoş Geldiniz!</div>
+            <div class="notif-msg">EroCore Web Studio olarak işletmeniz için profesyonel, 3D ve mobil uyumlu web çözümleri üretiyoruz. Ücretsiz ön demo ile başlayın.</div>
+        </div>
+        <button class="notif-close" id="notifClose" aria-label="Bildirimi kapat">✕</button>
+    </div>
+
+    <!-- ============ SADE, LÜKS VE PROFESYONEL NAVBAR ============ -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <!-- Marka -->
+            <a href="#hero" class="nav-brand">
+                <img src="logo.png" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='assets/images/logo.png';}" alt="EroCore" class="nav-logo-img">
+                <div class="nav-brand-text">EroCore <span>Studio</span></div>
+            </a>
+
+            <!-- Sadeleştirilmiş Merkez Menü -->
+            <nav class="nav-center">
+                <a href="#hakkimizda" class="nav-link">Hakkımızda</a>
+                <a href="#surec" class="nav-link">İş Süreci</a>
+                <a href="#fiyatlandirma" class="nav-link">Paketler & Fiyat</a>
+                
+                <!-- Rehber Dropdown -->
+                <div class="nav-dropdown">
+                    <span class="nav-link nav-dropdown-trigger">Rehber & Detaylar ▾</span>
+                    <div class="dropdown-menu">
+                        <a href="#araclar" class="dropdown-item">🛠 Teknoloji Yığını</a>
+                        <a href="#deger" class="dropdown-item">💎 Neden Profesyonel Site?</a>
+                        <a href="#demo" class="dropdown-item">🎁 Ücretsiz Ön Demo</a>
+                        <a href="#karsilastirma" class="dropdown-item">📊 Paket Kıyaslama Tablosu</a>
+                        <a href="#domain" class="dropdown-item">🌐 Domain & Hosting Sistemi</a>
+                        <a href="#odeme" class="dropdown-item">📜 Ödeme & Revizyon Kuralları</a>
+                        <a href="#teslimat" class="dropdown-item">📦 Teslimat & Ek Hizmetler</a>
+                    </div>
+                </div>
+
+                <a href="#sss" class="nav-link">SSS</a>
+            </nav>
+
+            <!-- Sağ Kontroller -->
+            <div class="nav-actions">
+                <button class="nav-sound-btn" id="navSoundBtn" title="Bildirim Sesini Aç/Kapat">🔊 Ses</button>
+                <a href="#iletisim" class="nav-cta-btn">Teklif İste ✨</a>
+                <button class="nav-toggle" id="navToggle" aria-label="Menüyü Aç">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============ MOBİL DRAWER MENÜ ============ -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-group">
+            <h6>Ana Bölümler</h6>
+            <div class="mobile-drawer-links">
+                <a href="#hakkimizda" class="mobile-drawer-link">Hakkımızda</a>
+                <a href="#surec" class="mobile-drawer-link">10 Aşamalı İş Süreci</a>
+                <a href="#fiyatlandirma" class="mobile-drawer-link">Fiyatlandırma Paketleri</a>
+                <a href="#karsilastirma" class="mobile-drawer-link">Paket Karşılaştırma Tablosu</a>
+                <a href="#sss" class="mobile-drawer-link">Sık Sorulan Sorular (SSS)</a>
+                <a href="#iletisim" class="mobile-drawer-link">İletişim & Teklif Formu</a>
+            </div>
+        </div>
+
+        <div class="mobile-drawer-group">
+            <h6>Rehber & Standartlar</h6>
+            <div class="mobile-drawer-links">
+                <a href="#araclar" class="mobile-drawer-link">🛠 Teknoloji & Tasarım Araçları</a>
+                <a href="#deger" class="mobile-drawer-link">💎 Değer & Etki Analizi</a>
+                <a href="#demo" class="mobile-drawer-link">🎁 Ücretsiz Ön Demo Sistemi</a>
+                <a href="#domain" class="mobile-drawer-link">🌐 Domain Mülkiyeti & Hosting</a>
+                <a href="#odeme" class="mobile-drawer-link">📜 Ödeme & Revizyon Politikası</a>
+                <a href="#teslimat" class="mobile-drawer-link">📦 Teslimat & Ek Hizmet Fiyatları</a>
+            </div>
+        </div>
+
+        <div style="margin-top:auto; display:flex; flex-direction:column; gap:0.8rem;">
+            <button class="nav-sound-btn" id="mobileSoundBtn" style="width:100%; justify-content:center;">🔊 Ses Açık</button>
+            <a href="#iletisim" class="btn btn-primary" style="width:100%;">Hemen Teklif İste ✨</a>
+        </div>
+    </div>
+
+    <!-- ============ ANA İÇERİK ============ -->
+    <main id="main-content">
+        <div class="page-container">
+
+            <!-- ============================================================
+                 BÖLÜM 00 · KAPAK / HERO
+                 ============================================================ -->
+            <section class="hero-page" id="hero">
+                <div class="hero-avatar-badge">
+                    <img src="logo.png" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='assets/images/logo.png';}" alt="Mehmet Eroğlu" class="hero-avatar-img">
+                    <span class="hero-avatar-text">EroCore Web Studio · Kurumsal Çözümler</span>
+                </div>
+
+                <h1 style="max-width: 980px;">
+                    İşletmenizin Dijital Vitrinini <br>
+                    <span class="gradient-text">Geleceğin Teknolojisiyle</span> İnşa Ediyoruz
+                </h1>
+
+                <p class="text-lead" style="max-width: 740px; margin: 0 auto;">
+                    İşletmenize özel, modern, ultra hızlı ve 3D interaktif web tasarımı ile geliştirme hizmetleri.<br>
+                    Şeffaf fiyatlandırma, net süreç ve profesyonel teslim güvencesi.
+                </p>
+
+                <div class="hero-tags">
+                    <span class="badge">Ücretsiz Ön Demo</span>
+                    <span class="badge">2 Revizyon Hakkı</span>
+                    <span class="badge">%50 + %50 Ödeme Modeli</span>
+                    <span class="badge badge-cyan">%100 Mobil Uyumlu</span>
+                    <span class="badge badge-cyan">3D İnteraktif Ağ</span>
+                    <span class="badge">Lighthouse 95+ Performans</span>
+                </div>
+
+                <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:1rem;">
+                    <a href="#demo" class="btn btn-primary">Ücretsiz Demo İste ✨</a>
+                    <a href="#fiyatlandirma" class="btn btn-outline">Paketleri ve Fiyatları İncele</a>
+                </div>
+
+
+                <!-- Hero İstatistik Çubukları -->
+                <div class="hero-stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-number">14 Gün</div>
+                        <div class="stat-label">Maksimum Teslim Hedefi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">%100</div>
+                        <div class="stat-label">Şeffaf Sözleşme & Süreç</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2 Hak</div>
+                        <div class="stat-label">Garantili Revizyon</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">30 Gün</div>
+                        <div class="stat-label">Ücretsiz Teknik Destek</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 SONSUZ KAYAN REKLAM ŞERİDİ (MARQUEE TICKER)
+                 ============================================================ -->
+            <div class="marquee-wrapper">
+                <div class="marquee-slider">
+                    <div class="marquee-track">
+                        <div class="marquee-item"><span class="icon-gold">⚡</span> Rust & WebAssembly (Wasm) ile Sıfır Gecikmeli Mimari</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">🔮</span> Three.js & WebGL GLSL ile Sinematik 3D Vitrin</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">🛡️</span> TypeScript ile Kurumsal Düzey Tip Güvenli Kodlama</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">🐍</span> Python & FastAPI ile Yüksek Hızlı Yapay Zeka Servisleri</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">🚀</span> Go (Golang) ile Ölçeklenebilir Mikroservis Mimarisi</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">✨</span> GSAP & ScrollTrigger ile Pürüzsüz Etkileşimler</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> Ücretsiz Ön Demo ile Risksiz Başlangıç</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">★</span> Maksimum 14 Günde Anahtar Teslim</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> %100 Mobil, Tablet & Desktop Kusursuz Responsive</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">★</span> Google Lighthouse 95+ Performans ve Teknik SEO</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> %50 + %50 Şeffaf Aşamalı Ödeme Modeli</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">★</span> 2 Garantili Kapsamlı Revizyon & 30 Gün Ücretsiz Destek</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> Müşteri Kontrolünde %100 Domain & Sunucu Mülkiyeti</div>
+                    </div>
+                    <div class="marquee-track" aria-hidden="true">
+                        <div class="marquee-item"><span class="icon-gold">⚡</span> Rust & WebAssembly (Wasm) ile Sıfır Gecikmeli Mimari</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">🔮</span> Three.js & WebGL GLSL ile Sinematik 3D Vitrin</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">🛡️</span> TypeScript ile Kurumsal Düzey Tip Güvenli Kodlama</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">🐍</span> Python & FastAPI ile Yüksek Hızlı Yapay Zeka Servisleri</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">🚀</span> Go (Golang) ile Ölçeklenebilir Mikroservis Mimarisi</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">✨</span> GSAP & ScrollTrigger ile Pürüzsüz Etkileşimler</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> Ücretsiz Ön Demo ile Risksiz Başlangıç</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">★</span> Maksimum 14 Günde Anahtar Teslim</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> %100 Mobil, Tablet & Desktop Kusursuz Responsive</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">★</span> Google Lighthouse 95+ Performans ve Teknik SEO</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> %50 + %50 Şeffaf Aşamalı Ödeme Modeli</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-cyan">★</span> 2 Garantili Kapsamlı Revizyon & 30 Gün Ücretsiz Destek</div>
+                        <div class="marquee-sep">|</div>
+                        <div class="marquee-item"><span class="icon-gold">✦</span> Müşteri Kontrolünde %100 Domain & Sunucu Mülkiyeti</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 BÖLÜM 01 · HAKKIMIZDA
+                 ============================================================ -->
+            <section class="section" id="hakkimizda">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 01 · HAKKIMIZDA</span>
+                    <h2 class="section-title">Butik Bir Web Tasarım & Geliştirme Stüdyosu</h2>
+                    <p class="section-desc">
+                        Hazır şablonlarla değil; her işletmenin marka kimliğine, ticari hedeflerine ve kullanıcı alışkanlıklarına uygun
+                        <strong>özel tasarım</strong> ve <strong>mühendislik odaklı geliştirme</strong> yaklaşımıyla çalışıyoruz.
+                    </p>
+                </header>
+
+                <div class="about-grid">
+                    <div class="glass-card about-card">
+                        <div class="card-icon">🎯</div>
+                        <h3>Odaklı Yaklaşım</h3>
+                        <p>Her proje, işletmenin sektörüne ve müşteri kitlesine göre planlanır ve milimetrik olarak tasarlanır.</p>
+                    </div>
+                    <div class="glass-card about-card">
+                        <div class="card-icon">📱</div>
+                        <h3>Mobil Öncelikli (Mobile First)</h3>
+                        <p>Tüm sitelerimiz masaüstü, tablet ve akıllı telefonlarda kesintisiz, akıcı ve uyumlu çalışır.</p>
+                    </div>
+                    <div class="glass-card about-card">
+                        <div class="card-icon">⚡</div>
+                        <h3>Performans Odaklı</h3>
+                        <p>Işık hızında yüklenen, optimize edilmiş modern web altyapısı. Google Lighthouse 95+ skor hedefi.</p>
+                    </div>
+                    <div class="glass-card about-card">
+                        <div class="card-icon">🧊</div>
+                        <h3>3D & İnteraktif Deneyim</h3>
+                        <p>Three.js ve WebGL ile ziyaretçilerin ilgisini çeken, lüks ve sinematik interaktif mikro deneyimler.</p>
+                    </div>
+                    <div class="glass-card about-card">
+                        <div class="card-icon">🔍</div>
+                        <h3>Teknik SEO Altyapısı</h3>
+                        <p>Semantik HTML5, arama motoru dostu temiz URL yapısı ve Google sıralamalarını destekleyen teknik temel.</p>
+                    </div>
+                    <div class="glass-card about-card">
+                        <div class="card-icon">🔒</div>
+                        <h3>Güvenli Altyapı</h3>
+                        <p>SSL uyumlu yayın, güvenli form entegrasyonları, spam koruması ve müşteri kontrollü barındırma desteği.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 02 · TASARIM VE TEKNOLOJİ EKOSİSTEMİ
+                 ============================================================ -->
+            <section class="section" id="araclar">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 02 · TEKNOLOJİ YIĞINI</span>
+                    <h2 class="section-title">Dünya Standartlarında Tasarım & Geliştirme Araçları</h2>
+                    <p class="section-desc">
+                        Geliştirdiğimiz sitelerde rastgele araçlar değil; global devlerin (Spotify, Airbnb, Uber) tercih ettiği
+                        endüstri standardı profesyonel UI/UX, prototipleme ve geliştirme platformlarını kullanıyoruz.
+                    </p>
+                </header>
+
+                <div class="tools-grid">
+                    <!-- Figma -->
+                    <div class="tool-card">
+                        <span class="tool-tag">UI/UX Lideri</span>
+                        <div class="tool-name">Figma</div>
+                        <p class="tool-desc">
+                            Sektörün tartışmasız lideri. Güçlü bileşen kütüphaneleri, pikselsiz vektör tasarımı ve kurumsal tasarım sistemleri standardı.
+                        </p>
+                    </div>
+                    <!-- Sketch & Adobe XD -->
+                    <div class="tool-card">
+                        <span class="tool-tag">Vektör & Mimari</span>
+                        <div class="tool-name">Sketch & XD</div>
+                        <p class="tool-desc">
+                            Köklü tasarım ajanslarının tercihi; hassas mikro ızgaralar, sesli etkileşimler ve prototipleme desteği.
+                        </p>
+                    </div>
+                    <!-- ProtoPie -->
+                    <div class="tool-card">
+                        <span class="tool-tag">İleri Seviye Prototip</span>
+                        <div class="tool-name">ProtoPie</div>
+                        <p class="tool-desc">
+                            Akıllı telefon sensörlerini ve karmaşık mantıksal formülleri destekleyen yüksek sadakatli (high-fidelity) etkileşim simülasyonu.
+                        </p>
+                    </div>
+                    <!-- Framer -->
+                    <div class="tool-card">
+                        <span class="tool-tag">Etkileşim & Web</span>
+                        <div class="tool-name">Framer</div>
+                        <p class="tool-desc">
+                            Tasarımı doğrudan kod tabanlı bileşenlerle birleştiren, nefes kesici animasyonlar ve ultra hızlı web deneyimleri.
+                        </p>
+                    </div>
+                    <!-- Principle -->
+                    <div class="tool-card">
+                        <span class="tool-tag">Mikro Animasyon</span>
+                        <div class="tool-name">Principle</div>
+                        <p class="tool-desc">
+                            Zaman tüneli (timeline) mantığıyla buton tepkileri, kart kaydırmaları ve akıcı sayfa geçişleri kurgulama.
+                        </p>
+                    </div>
+                    <!-- Webflow -->
+                    <div class="tool-card">
+                        <span class="tool-tag">Görsel Geliştirme</span>
+                        <div class="tool-name">Webflow</div>
+                        <p class="tool-desc">
+                            Görsel arayüz üzerinden temiz semantik HTML, CSS ve JS kontrolü sağlayan kurumsal no-code ve hibrit geliştirme platformu.
+                        </p>
+                    </div>
+                    <!-- Zeplin -->
+                    <div class="tool-card">
+                        <span class="tool-tag">Developer Handoff</span>
+                        <div class="tool-name">Zeplin</div>
+                        <p class="tool-desc">
+                            Tasarım kodlarının, renk paletlerinin, ölçülerin ve görsel varlıkların yazılımcıya pikselsiz ve hatasız aktarılması.
+                        </p>
+                    </div>
+                    <!-- Storybook -->
+                    <div class="tool-card">
+                        <span class="tool-tag">Bileşen Belgeleme</span>
+                        <div class="tool-name">Storybook</div>
+                        <p class="tool-desc">
+                            Büyük ölçekli sitelerde kullanılan UI bileşenlerini izole ortamda kodlayıp belgeleyen ileri seviye tasarım sistemi altyapısı.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 03 · DEĞER / NEDEN PROFESYONEL SİTE?
+                 ============================================================ -->
+            <section class="section" id="deger">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 03 · DEĞER & ETKİ</span>
+                    <h2 class="section-title">Neden Profesyonel Bir Web Sitesi?</h2>
+                    <p class="section-desc">
+                        Günümüzde müşteriler bir işletmeyi seçmeden önce web sitesini inceler. Profesyonel bir vitrin
+                        <strong>güvenilirliği</strong> pekiştirir, <strong>marka değerini</strong> yükseltir ve <strong>müşteri dönüşümünü</strong> artırır.
+                    </p>
+                </header>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="icon">🏆</span>
+                        <div>
+                            <div class="label">Kurumsal Güven</div>
+                            <div class="desc">Profesyonel görünüm, müşterinin firmanıza duyduğu ilk izlenimi ve güveni doğrudan belirler.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📱</span>
+                        <div>
+                            <div class="label">Her Cihazda Kusursuz Erişim</div>
+                            <div class="desc">Mobil, tablet, laptop ve 4K ekranlarda hiçbir bozulma olmadan mükemmel kullanıcı deneyimi.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🔍</span>
+                        <div>
+                            <div class="label">Arama Motoru Temeli</div>
+                            <div class="desc">Doğru şema etiketleri ve semantik teknik altyapı ile Google ve arama motorlarına hazır zemin.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">⚡</span>
+                        <div>
+                            <div class="label">Hızlı & Akıcı Sayfa Yüklenmesi</div>
+                            <div class="desc">Gereksiz kod yığınlarından arındırılmış, ziyaretçiyi bekletmeyen yüksek hız performansı.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🎨</span>
+                        <div>
+                            <div class="label">Marka Kimliğine Özgünlük</div>
+                            <div class="desc">Hazır kalıplar yerine firmanızın renkleri, logosu ve vizyonuyla bütünleşen özel arayüz.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🔄</span>
+                        <div>
+                            <div class="label">Ölçeklenebilir Kod Altyapısı</div>
+                            <div class="desc">Gelecekte ihtiyaç duyulabilecek yeni sayfalar, modüller veya e-ticaret için sağlam temel.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-accent mt-4">
+                    <p class="text-small" style="margin:0;">
+                        <strong class="text-accent">Önemli Şeffaflık İlkesi:</strong> EroCore Web Studio <strong>"kesin satış artırma garantisi"</strong> veya
+                        <strong>"Google'da 1 günde 1. sıraya çıkarma"</strong> gibi gerçek dışı vaatlerde bulunmaz. Bunun yerine <strong>en güncel SEO standartları</strong>,
+                        <strong>yüksek performanslı mühendislik</strong> ve <strong>kullanıcıyı müşteriye dönüştüren seçkin tasarım</strong> sunar.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 04 · ÜCRETSİZ ÖN DEMO SİSTEMİ
+                 ============================================================ -->
+            <section class="section" id="demo">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 04 · RİSKSİZ BAŞLANGIÇ</span>
+                    <h2 class="section-title">Ücretsiz Ön Demo Sistemi</h2>
+                    <p class="section-desc">
+                        EroCore Web Studio'nun en güçlü avantajı: <strong class="text-accent">İşletmenize özel ücretsiz ana sayfa ön demosu hazırlanabilmesidir.</strong>
+                        Karar vermeden önce sitenizin nasıl görüneceğini bizzat görün!
+                    </p>
+                </header>
+
+                <div class="grid-2">
+                    <div class="card card-accent">
+                        <h3 class="text-accent mb-2">Demo Paketinde Neler Var?</h3>
+                        <p class="text-small mb-3">İşletmenizin adı, logosu, hizmetleri ve renk tercihleriyle canlı ana sayfa taslağı oluşturulur:</p>
+                        <ul style="font-size:0.85rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>• Özel ana sayfa yerleşim taslağı</li>
+                            <li>• Kurumsal renk ve tipografi önerisi</li>
+                            <li>• Menü ve bilgi mimarisi yapısı</li>
+                            <li>• Hizmet alanları ve görsel düzeni</li>
+                            <li>• Hızlı İletişim & E-Posta / Form Entegrasyonu</li>
+                            <li>• Logo ve marka materyali yerleşimi</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3 class="mb-2">Bilmeniz Gereken Güvenceler</h3>
+                        <p class="text-small mb-3">Hiçbir gizli koşul veya sürpriz ücret içermez:</p>
+                        <ul style="font-size:0.85rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>✓ Demo hazırlığı tamamen <strong class="text-accent">ücretsizdir</strong></li>
+                            <li>✓ Hiçbir ön ödeme veya depozito talep edilmez</li>
+                            <li>✓ Müşteri projeyi satın almak <strong>zorunda değildir</strong></li>
+                            <li>✓ Demo beğenilirse resmi geliştirme sürecine başlanır</li>
+                            <li>✓ Beğenmezseniz hiçbir ücret ödemezsiniz</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card card-highlight mt-4 text-center">
+                    <p style="font-size:1.15rem; font-weight:700; margin:0;" class="gradient-text">
+                        "Beğendiğiniz ön tasarımı birlikte profesyonel, yaşayan bir web sitesine dönüştürelim."
+                    </p>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 05 · PROJE SÜRECİ
+                 ============================================================ -->
+            <section class="section" id="surec">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 05 · ADIM ADIM İŞ AKIŞI</span>
+                    <h2 class="section-title">10 Aşamalı Şeffaf Proje Süreci</h2>
+                    <p class="section-desc">
+                        İçeriklerin ve marka materyallerinin zamanında temini halinde standart projelerimiz
+                        <strong class="text-accent">maksimum 14 iş günü</strong> içerisinde yayına hazır hale getirilir.
+                    </p>
+                </header>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 01</span>
+                        <h4>İhtiyaç & Sektör Analizi</h4>
+                        <p>İşletmenizin hedefleri, hedef kitlesi, rakipleri ve beklentileri detaylıca belirlenir.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 02</span>
+                        <h4>Arayüz & UI/UX Tasarım</h4>
+                        <p>Onaylanan vizyona uygun olarak sayfa hiyerarşisi, tipografi ve estetik arayüz tasarlanır.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 03</span>
+                        <h4>Yazılım & Geliştirme</h4>
+                        <p>Tasarım modern web teknolojileriyle (HTML5, CSS3, JS, Three.js) temiz kod mimarisiyle kodlanır.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 04</span>
+                        <h4>Test & Optimizasyon</h4>
+                        <p>Mobil uyumluluk, tarayıcı testleri, form fonksiyonları ve hız optimizasyonu gerçekleştirilir.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 05</span>
+                        <h4>Müşteri Ön İncelemesi</h4>
+                        <p>Müşteriye test bağlantısı üzerinden yayına hazır çalışan sürüm (staging) sunulur.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 06</span>
+                        <h4>Revizyon & Düzeltmeler</h4>
+                        <p>Müşteriye tanınan <strong class="text-accent">2 revizyon hakkı</strong> kapsamında talep edilen rötuşlar uygulanır.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 07</span>
+                        <h4>Müşteri Son Onayı</h4>
+                        <p>Tüm sayfalar ve detaylar kontrol edilerek müşteri nihai onayı yazılı olarak alınır.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 08</span>
+                        <h4>Kalan Ödemenin Alınması</h4>
+                        <p>Başlangıçtaki %50 peşinat sonrası projenin kalan %50 bakiyesi tahsil edilir.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 09</span>
+                        <h4>Domain Bağlantısı & Yayına Alma</h4>
+                        <p>Domain DNS yönlendirmeleri, SSL kurulumu ve canlı sunucu yayını eksiksiz tamamlanır.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="step-num">Aşama 10</span>
+                        <h4>Nihai Teslim & Dokümantasyon</h4>
+                        <p>Tüm yönetim erişimleri ve kaynak kodlar müşteriye güvenle teslim edilir.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /.page-container -->
+
+        <!-- ============================================================
+             BÖLÜM 06 · FİYATLANDIRMA (GENİŞLETİLMİŞ PANORAMİK DECK)
+             ============================================================ -->
+        <section class="section" id="fiyatlandirma">
+            <div class="page-container-wide">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 06 · ŞEFFAF PAKETLER</span>
+                    <h2 class="section-title">Net, Rekabetçi ve Genişletilmiş Fiyatlandırma</h2>
+                    <p class="section-desc">
+                        Piyasa standartlarının bir tık daha avantajlısı, gizli ek maliyet barındırmayan ve yan yana
+                        kolayca kıyaslayabileceğiniz lüks hizmet paketlerimiz.
+                    </p>
+                </header>
+
+                <!-- Yan Yana Genişletilmiş 4 Paket Deck -->
+                <div class="pricing-deck">
+                    <!-- Başlangıç -->
+                    <article class="pricing-card">
+                        <div class="pricing-header">
+                            <span class="pricing-tier">BAŞLANGIÇ</span>
+                            <h3 class="pricing-title">Dijital Varlığınızı Başlatın</h3>
+                            <div class="pricing-price-box">
+                                <div class="pricing-price-row">
+                                    <span class="price-val">4.500 ₺</span>
+                                    <span class="price-sep">—</span>
+                                    <span class="price-val">7.500 ₺</span>
+                                </div>
+                                <span class="price-note">Proje bazlı net başlangıç fiyatı</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Modern ve şık ana sayfa tasarımı</li>
+                            <li>Hakkımızda / Hizmetler / İletişim</li>
+                            <li>Doğrudan E-Posta & Hızlı İletişim Formu</li>
+                            <li>Google Maps harita entegrasyonu</li>
+                            <li>%100 Mobil ve tablet uyumu</li>
+                            <li>Temel SEO meta ve şema altyapısı</li>
+                            <li>SSL güvenlik sertifikası uyumu</li>
+                            <li><strong>1 Kapsamlı revizyon hakkı</strong></li>
+                        </ul>
+                        <a href="#iletisim" class="btn btn-outline">Bu Paketi Seç</a>
+                    </article>
+
+                    <!-- Profesyonel (ÖNE ÇIKAN) -->
+                    <article class="pricing-card pricing-featured">
+                        <span class="pricing-badge">⭐ ÖNE ÇIKAN</span>
+                        <div class="pricing-header">
+                            <span class="pricing-tier">PROFESYONEL</span>
+                            <h3 class="pricing-title">Pazarda Rakiplerinizi Geçin</h3>
+                            <div class="pricing-price-box">
+                                <div class="pricing-price-row">
+                                    <span class="price-val">8.900 ₺</span>
+                                    <span class="price-sep">—</span>
+                                    <span class="price-val">13.900 ₺</span>
+                                </div>
+                                <span class="price-note">En çok tercih edilen ideal denge</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Başlangıç paketindeki tüm özellikler</li>
+                            <li>4–6 Özel tasarlanmış alt sayfa</li>
+                            <li>Özel UI/UX tasarım dili & tipografi</li>
+                            <li>İnteraktif galeri & dinamik iletişim formu</li>
+                            <li>Sosyal medya hesap entegrasyonları</li>
+                            <li>Gelişmiş SEO & mikro animasyonlar</li>
+                            <li>Lighthouse hız ve performans optimizasyonu</li>
+                            <li><strong>2 Kapsamlı revizyon hakkı</strong></li>
+                        </ul>
+                        <a href="#iletisim" class="btn btn-primary">Bu Paketi Seç ✨</a>
+                    </article>
+
+                    <!-- Kurumsal -->
+                    <article class="pricing-card">
+                        <div class="pricing-header">
+                            <span class="pricing-tier">KURUMSAL</span>
+                            <h3 class="pricing-title">Sektörünüzde Güven İnşa Edin</h3>
+                            <div class="pricing-price-box">
+                                <div class="pricing-price-row">
+                                    <span class="price-val">18.500 ₺</span>
+                                    <span class="price-sep">—</span>
+                                    <span class="price-val">27.500 ₺</span>
+                                </div>
+                                <span class="price-note">Kapsamlı kurumsal marka vitrini</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>Profesyonel paketteki tüm özellikler</li>
+                            <li>Tamamen firmaya özel özgün arayüz</li>
+                            <li>Gelişmiş UI/UX ve sinematik animasyonlar</li>
+                            <li>Dinamik blog / haber / duyuru altyapısı</li>
+                            <li>Teknik SEO & tam erişilebilirlik (A11y)</li>
+                            <li>Özel formlar & kurumsal teklif modülü</li>
+                            <li>Gelişmiş önbellekleme & performans</li>
+                            <li><strong>2 Kapsamlı revizyon hakkı</strong></li>
+                        </ul>
+                        <a href="#iletisim" class="btn btn-outline">Bu Paketi Seç</a>
+                    </article>
+
+                    <!-- Özel Proje -->
+                    <article class="pricing-card">
+                        <div class="pricing-header">
+                            <span class="pricing-tier">ÖZEL PROJE</span>
+                            <h3 class="pricing-title">Sınırları Kaldırın & Büyüyün</h3>
+                            <div class="pricing-price-box">
+                                <div class="pricing-price-row">
+                                    <span class="price-val">34.500 ₺</span>
+                                    <span class="price-sep">+</span>
+                                </div>
+                                <span class="price-note">Proje bazlı özel mühendislik</span>
+                            </div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li>E-ticaret, sepet & sanal POS ödeme sistemi</li>
+                            <li>Özel yönetim paneli & analiz dashboard</li>
+                            <li>Üyelik, müşteri profili & rezervasyon sistemi</li>
+                            <li>3D interaktif WebGL vitrin & modelleme</li>
+                            <li>REST API & üçüncü parti entegrasyonlar</li>
+                            <li>Özel veritabanı mimarisi & yüksek güvenlik</li>
+                            <li>Web uygulaması (SaaS / Portal) geliştirme</li>
+                            <li><strong>Proje bazlı esnek revizyon</strong></li>
+                        </ul>
+                        <a href="#iletisim" class="btn btn-cyan">Özel Teklif Al</a>
+                    </article>
+                </div>
+
+                <p class="pricing-footnote">
+                    * Tüm fiyatlar KDV hariçtir. Domain ve hosting ücretleri ayrıdır. Kapsam dışı özel talepler önceden yazılı olarak bildirilir ve onaylanır.
+                </p>
+
+                                <!-- ============================================================
+                     CANLI İNTERAKTİF PROJE VE FİYAT MOTORU (MINI CRM ENGINE)
+                     ============================================================ -->
+                <div class="quote-engine-wrapper" id="quoteEngineSection">
+                    <header class="section-header" style="margin-bottom:2.2rem;">
+                        <span class="section-eyebrow">— İNTERAKTİF PROJE MOTORU</span>
+                        <h3 class="section-title gradient-text" style="font-size: clamp(1.6rem, 2.6vw, 2.2rem);">Akıllı Proje Konfigüratörü & Teklif Oluşturucu</h3>
+                        <p class="section-desc" style="max-width:700px; margin:0 auto;">
+                            4 adımda projenizin tipini, tasarım vizyonunu ve teknik modüllerini seçin; yapay zeka destekli motorumuz gerçek piyasa verileriyle yatırım aralığınızı anında çıkarsın ve resmi briefinizi oluştursun.
+                        </p>
+                    </header>
+
+                    <!-- Adım Göstergesi -->
+                    <div class="quote-steps-bar">
+                        <div class="quote-step-item active" data-step="1">
+                            <div class="quote-step-num">1</div>
+                            <div class="quote-step-text">
+                                <h6>Proje Türü</h6>
+                                <span>Platform Tipi</span>
+                            </div>
+                        </div>
+                        <div class="quote-step-item" data-step="2">
+                            <div class="quote-step-num">2</div>
+                            <div class="quote-step-text">
+                                <h6>Ölçek & Tasarım</h6>
+                                <span>Sayfa & Stil</span>
+                            </div>
+                        </div>
+                        <div class="quote-step-item" data-step="3">
+                            <div class="quote-step-num">3</div>
+                            <div class="quote-step-text">
+                                <h6>Teknik Modüller</h6>
+                                <span>16+ Fonksiyon</span>
+                            </div>
+                        </div>
+                        <div class="quote-step-item" data-step="4">
+                            <div class="quote-step-num">4</div>
+                            <div class="quote-step-text">
+                                <h6>Brief & Özet</h6>
+                                <span>Resmi Teklif</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Çalışma Alanı: Sol Seçim Alanı + Sağ Canlı Özet Paneli -->
+                    <div class="quote-workspace">
+                        <!-- Sol Panel: Adım İçerikleri -->
+                        <div class="quote-panes-wrapper">
+
+                            <!-- ADIM 1: PROJE TÜRÜ -->
+                            <div class="quote-step-pane active" data-pane="1">
+                                <div>
+                                    <h4 class="quote-pane-title">1. Adım: Projenizin Türünü Seçin</h4>
+                                    <p class="quote-pane-desc">Hedeflediğiniz dijital ürünün ana mimarisini ve kullanım amacını belirleyin:</p>
+                                </div>
+                                <div class="project-type-grid">
+                                    <div class="project-type-card" data-type="kurumsal">
+                                        <div class="project-type-icon">🏢</div>
+                                        <div class="project-type-info">
+                                            <h5>Kurumsal Web Sitesi</h5>
+                                            <p>Şirket prestiji, hizmet tanıtımı, referanslar ve kurumsal kimlik sunumu.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="ecommerce">
+                                        <div class="project-type-icon">🛍️</div>
+                                        <div class="project-type-info">
+                                            <h5>E-Ticaret Platformu</h5>
+                                            <p>Online satış, sepet, Sanal POS (İyzico/PayTR) ve ürün katalog yönetimi.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="saas">
+                                        <div class="project-type-icon">⚡</div>
+                                        <div class="project-type-info">
+                                            <h5>SaaS & Web Uygulaması</h5>
+                                            <p>Kullanıcı girişleri, abonelikler, dashboard ve API entegrasyonlu web app.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="landing">
+                                        <div class="project-type-icon">🎯</div>
+                                        <div class="project-type-info">
+                                            <h5>Dönüşüm Odaklı Landing Page</h5>
+                                            <p>Tek sayfa, reklam kampanyaları için yüksek dönüşümlü satış sayfası.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="portfolio">
+                                        <div class="project-type-icon">🎨</div>
+                                        <div class="project-type-info">
+                                            <h5>Kreatif Portfolyo / Ajans</h5>
+                                            <p>Tasarımcı, mimar ve ajanslara özel görsel ağırlıklı şık vitrin.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="booking">
+                                        <div class="project-type-icon">📅</div>
+                                        <div class="project-type-info">
+                                            <h5>Rezervasyon & Randevu</h5>
+                                            <p>Klinik, danışmanlık, salon ve hizmet işletmeleri için randevu takvimi.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="blog">
+                                        <div class="project-type-icon">📰</div>
+                                        <div class="project-type-info">
+                                            <h5>İçerik Portalı & Blog</h5>
+                                            <p>Yüksek trafikli haber, makale, yayıncılık ve SEO odaklı içerik yapısı.</p>
+                                        </div>
+                                    </div>
+                                    <div class="project-type-card" data-type="custom">
+                                        <div class="project-type-icon">🚀</div>
+                                        <div class="project-type-info">
+                                            <h5>Özel Mimari & Web Çözümü</h5>
+                                            <p>Standart dışı, tamamen amaca yönelik özel mühendislik projesi.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="quote-step-nav-btns">
+                                    <button type="button" class="btn btn-primary quote-next-step" style="width:100%;">İleri: Ölçek & Tasarım Seviyesi →</button>
+                                </div>
+                            </div>
+
+                            <!-- ADIM 2: TASARIM SEVİYESİ VE ÖLÇEK -->
+                            <div class="quote-step-pane" data-pane="2">
+                                <div>
+                                    <h4 class="quote-pane-title">2. Adım: Tasarım Seviyesi ve Sayfa Ölçeği</h4>
+                                    <p class="quote-pane-desc">Arayüz estetiğinin derinliğini ve projenin yaklaşık sayfa hacmini belirleyin:</p>
+                                </div>
+                                
+                                <div class="design-level-grid">
+                                    <div class="design-level-card" data-level="standart">
+                                        <span class="design-level-badge">Standart</span>
+                                        <div class="design-level-title">Modern Standart</div>
+                                        <p class="design-level-desc">Temiz, minimal, mobil uyumlu ve yüksek performanslı kurumsal görünüm.</p>
+                                    </div>
+                                    <div class="design-level-card" data-level="custom">
+                                        <span class="design-level-badge">Kreatif</span>
+                                        <div class="design-level-title">Kreatif Özel Tasarım</div>
+                                        <p class="design-level-desc">Markaya özel mikro etkileşimler, zengin tipografi ve özel illüstrasyonlar.</p>
+                                    </div>
+                                    <div class="design-level-card" data-level="premium">
+                                        <span class="design-level-badge">Lüks</span>
+                                        <div class="design-level-title">Ultra Premium / 3D & Luxe</div>
+                                        <p class="design-level-desc">Three.js 3D derinlik, cam efekti (glassmorphism) ve sinematik animasyonlar.</p>
+                                    </div>
+                                </div>
+
+                                <div class="calc-control-group" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-card); border-radius:var(--radius-md); padding:1.2rem; margin-top:1.5rem;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                                        <label style="font-weight:700; color:var(--text-primary); margin:0;">Tahmini Sayfa / Ekran Sayısı:</label>
+                                        <span id="quotePageDisplay" style="font-family:var(--font-mono); font-weight:800; color:var(--accent-gold); font-size:1.15rem;">6 Sayfa</span>
+                                    </div>
+                                    <input type="range" id="quotePageSlider" min="1" max="40" value="6" class="calc-slider">
+                                    <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;">
+                                        <span>1 Sayfa (Landing)</span>
+                                        <span>10 Sayfa</span>
+                                        <span>25 Sayfa</span>
+                                        <span>40+ Sayfa</span>
+                                    </div>
+                                </div>
+
+                                <div class="quote-step-nav-btns">
+                                    <button type="button" class="btn btn-outline quote-prev-step">← Geri</button>
+                                    <button type="button" class="btn btn-primary quote-next-step">İleri: Teknik Modüller (16+) →</button>
+                                </div>
+                            </div>
+
+                            <!-- ADIM 3: TEKNİK MODÜLLER (16+ ÖZELLİK) -->
+                            <div class="quote-step-pane" data-pane="3">
+                                <div>
+                                    <h4 class="quote-pane-title">3. Adım: Teknik Modüller ve Yetenekler</h4>
+                                    <p class="quote-pane-desc">Projenize güç katacak donanımları, API entegrasyonlarını ve ileri seviye özellikleri seçin:</p>
+                                </div>
+
+                                <!-- Kategori Filtreleri -->
+                                <div class="feature-cat-nav">
+                                    <button type="button" class="feature-cat-btn active" data-cat="all">Tümü (17)</button>
+                                    <button type="button" class="feature-cat-btn" data-cat="design">Tasarım & 3D</button>
+                                    <button type="button" class="feature-cat-btn" data-cat="ecommerce">E-Ticaret & POS</button>
+                                    <button type="button" class="feature-cat-btn" data-cat="auth">Kullanıcı & Üyelik</button>
+                                    <button type="button" class="feature-cat-btn" data-cat="ai">Yapay Zeka & Arama</button>
+                                    <button type="button" class="feature-cat-btn" data-cat="integration">Entegrasyon & API</button>
+                                    <button type="button" class="feature-cat-btn" data-cat="seo">SEO & Altyapı</button>
+                                </div>
+
+                                <!-- Özellik Çipleri Listesi -->
+                                <div class="feature-chips-container">
+                                    <!-- Tasarım & 3D -->
+                                    <div class="feature-chip-item" data-key="threeD" data-cat="design">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Three.js / 3D İnteraktif Vitrin</span>
+                                            <span class="feature-chip-sub">WebGL tabanlı 3 boyutlu model & efektler</span>
+                                        </div>
+                                        <span class="feature-chip-price">+9.000 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="gsap" data-cat="design">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">GSAP Sinematik Mikro Animasyonlar</span>
+                                            <span class="feature-chip-sub">ScrollTrigger, pürüzsüz geçişler ve efektler</span>
+                                        </div>
+                                        <span class="feature-chip-price">+3.500 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="darkMode" data-cat="design">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Dark & Light Mode İkili Tema</span>
+                                            <span class="feature-chip-sub">Tek tıkla tema geçişi ve sistem tercihi</span>
+                                        </div>
+                                        <span class="feature-chip-price">+2.000 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="vectorIcons" data-cat="design">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Özel Vektör İkonografi</span>
+                                            <span class="feature-chip-sub">Markaya özel SVG çizim ve illüstrasyon</span>
+                                        </div>
+                                        <span class="feature-chip-price">+1.800 ₺</span>
+                                    </div>
+
+                                    <!-- E-Ticaret & POS -->
+                                    <div class="feature-chip-item" data-key="cartPayment" data-cat="ecommerce">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">İyzico / PayTR Sanal POS</span>
+                                            <span class="feature-chip-sub">256-bit SSL ödeme altyapısı ve sepet</span>
+                                        </div>
+                                        <span class="feature-chip-price">+16.000 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="productFilter" data-cat="ecommerce">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Gelişmiş Ürün & Varyasyon Filtresi</span>
+                                            <span class="feature-chip-sub">Anlık ajax filtreleme, beden/renk seçimi</span>
+                                        </div>
+                                        <span class="feature-chip-price">+4.500 ₺</span>
+                                    </div>
+
+                                    <!-- Kullanıcı & Üyelik -->
+                                    <div class="feature-chip-item" data-key="userAuth" data-cat="auth">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Kullanıcı Kayıt & Profil Paneli</span>
+                                            <span class="feature-chip-sub">Güvenli token tabanlı oturum yönetimi</span>
+                                        </div>
+                                        <span class="feature-chip-price">+7.500 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="roleAuth" data-cat="auth">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Rol Bazlı Çoklu Yetki (RBAC)</span>
+                                            <span class="feature-chip-sub">Admin, Editör, Müşteri hiyerarşik izinleri</span>
+                                        </div>
+                                        <span class="feature-chip-price">+5.500 ₺</span>
+                                    </div>
+
+                                    <!-- Rezervasyon -->
+                                    <div class="feature-chip-item" data-key="bookingSys" data-cat="auth">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Online Randevu & SMS Onayı</span>
+                                            <span class="feature-chip-sub">Takvim entegrasyonu, otomatik bildirim</span>
+                                        </div>
+                                        <span class="feature-chip-price">+11.000 ₺</span>
+                                    </div>
+
+                                    <!-- AI & Akıllı Çözümler -->
+                                    <div class="feature-chip-item" data-key="aiChatbot" data-cat="ai">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Yapay Zeka (OpenAI/Gemini) Chatbot</span>
+                                            <span class="feature-chip-sub">Firma verileriyle eğitilmiş 7/24 asistan</span>
+                                        </div>
+                                        <span class="feature-chip-price">+8.500 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="aiSearch" data-cat="ai">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">AI Semantik Arama & Öneri</span>
+                                            <span class="feature-chip-sub">Vektörel akıllı içerik eşleştirme</span>
+                                        </div>
+                                        <span class="feature-chip-price">+6.500 ₺</span>
+                                    </div>
+
+                                    <!-- Entegrasyon & API -->
+                                    <div class="feature-chip-item" data-key="googleTools" data-cat="integration">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Google Analytics & Search Console</span>
+                                            <span class="feature-chip-sub">Etkinlik izleme, harita ve doğrulama</span>
+                                        </div>
+                                        <span class="feature-chip-price">+1.500 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="crmApi" data-cat="integration">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">CRM / ERP & REST API Bağlantısı</span>
+                                            <span class="feature-chip-sub">Mevcut kurumsal sistemlerle tam senkronizasyon</span>
+                                        </div>
+                                        <span class="feature-chip-price">+9.500 ₺</span>
+                                    </div>
+
+                                    <!-- SEO & Altyapı -->
+                                    <div class="feature-chip-item" data-key="techSeo" data-cat="seo">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">İleri Düzey Teknik SEO & Şema</span>
+                                            <span class="feature-chip-sub">JSON-LD Schema, OpenGraph ve site haritası</span>
+                                        </div>
+                                        <span class="feature-chip-price">+3.500 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="multiLang" data-cat="seo">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Çoklu Dil Desteği (EN / DE / TR)</span>
+                                            <span class="feature-chip-sub">i18n uluslararası dil değiştirici mimari</span>
+                                        </div>
+                                        <span class="feature-chip-price">+6.000 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="customAdmin" data-cat="seo">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Özel Yönetim Paneli (CMS)</span>
+                                            <span class="feature-chip-sub">Kod bilmeden kolay içerik ve görsel güncelleme</span>
+                                        </div>
+                                        <span class="feature-chip-price">+12.000 ₺</span>
+                                    </div>
+                                    <div class="feature-chip-item" data-key="monthlyCare" data-cat="seo">
+                                        <div class="feature-chip-text">
+                                            <span class="feature-chip-name">Aylık Güvenlik & Bakım Paketi</span>
+                                            <span class="feature-chip-sub">Yedekleme, güncelleme ve 7/24 izleme</span>
+                                        </div>
+                                        <span class="feature-chip-price">+2.500 ₺/ay</span>
+                                    </div>
+                                </div>
+
+                                <div class="quote-step-nav-btns">
+                                    <button type="button" class="btn btn-outline quote-prev-step">← Geri</button>
+                                    <button type="button" class="btn btn-primary quote-next-step">İleri: Brief & Resmi Teklif Özeti →</button>
+                                </div>
+                            </div>
+
+                            <!-- ADIM 4: BRİEF FORMU & RESMİ TEKLİF -->
+                            <div class="quote-step-pane" data-pane="4">
+                                <div>
+                                    <h4 class="quote-pane-title">4. Adım: Proje Briefinizi ve Teklifinizi Alın</h4>
+                                    <p class="quote-pane-desc">İletişim bilgilerinizi girin, seçtiğiniz tüm konfigürasyon resmi brief dosyası olarak e-postanıza ve stüdyomuza anında iletilsin:</p>
+                                </div>
+
+                                <div class="brief-form-grid">
+                                    <div class="brief-form-group">
+                                        <label for="briefClientName">Yetkili Adı Soyadı *</label>
+                                        <input type="text" id="briefClientName" class="form-input" placeholder="Örn: Ahmet Yılmaz" required>
+                                    </div>
+                                    <div class="brief-form-group">
+                                        <label for="briefClientCompany">Şirket / Marka Ünvanı</label>
+                                        <input type="text" id="briefClientCompany" class="form-input" placeholder="Örn: Acme Teknoloji A.Ş.">
+                                    </div>
+                                    <div class="brief-form-group">
+                                        <label for="briefClientEmail">Kurumsal E-Posta Adresi *</label>
+                                        <input type="email" id="briefClientEmail" class="form-input" placeholder="ornek@sirketiniz.com" required>
+                                    </div>
+                                    <div class="brief-form-group">
+                                        <label for="briefClientPhone">Telefon Numarası</label>
+                                        <input type="tel" id="briefClientPhone" class="form-input" placeholder="05xx xxx xx xx">
+                                    </div>
+                                    <div class="brief-form-group full">
+                                        <label for="briefClientNotes">Proje Hakkında Ek Notlar & Özel İstekler</label>
+                                        <textarea id="briefClientNotes" class="form-textarea" rows="3" placeholder="Özel entegrasyonlar, beğendiğiniz referans siteler, hedef lansman tarihi vb."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="quote-step-nav-btns">
+                                    <button type="button" class="btn btn-outline quote-prev-step">← Geri</button>
+                                    <button type="button" class="btn btn-primary" id="quoteSendBriefBtn">Resmi Proje Briefini Oluştur & Gönder ✨</button>
+                                </div>
+                            </div>
+
+                        </div><!-- /.quote-panes-wrapper -->
+
+                        <!-- Sağ Panel: Canlı Teklif Özeti (Mini CRM Dashboard) -->
+                        <aside class="quote-summary-panel">
+                            <div class="quote-summary-header">
+                                <div class="quote-summary-title">Canlı Teklif Özeti</div>
+                                <div class="quote-summary-sub">Otomatik Hesaplanan Yatırım Tahmini</div>
+                            </div>
+
+                            <div class="quote-price-display">
+                                <div class="quote-price-label">Tahmini Yatırım Aralığı</div>
+                                <div class="quote-price-val" id="quotePriceVal">0 ₺</div>
+                            </div>
+
+                            <button type="button" class="quote-reset-btn" id="quoteResetBtn">Sıfırla · Varsayılana Dön</button>
+
+                            <div class="quote-metrics-list">
+                                <div class="quote-metric-row">
+                                    <span>Seçilen Tip:</span>
+                                    <span id="summaryProjectType">Kurumsal Web Sitesi</span>
+                                </div>
+                                <div class="quote-metric-row">
+                                    <span>Tasarım Düzeyi:</span>
+                                    <span id="summaryDesignLevel">Ultra Premium / 3D & Luxe</span>
+                                </div>
+                                <div class="quote-metric-row">
+                                    <span>Sayfa Hacmi:</span>
+                                    <span id="summaryPages">6 Sayfa</span>
+                                </div>
+                                <div class="quote-metric-row">
+                                    <span>Teknik Modüller:</span>
+                                    <span id="summaryFeaturesCount">3 Seçili Modül</span>
+                                </div>
+                                <div class="quote-metric-row">
+                                    <span>Tahmini Teslimat:</span>
+                                    <span id="summaryDeliveryDays">14–18 İş Günü</span>
+                                </div>
+                                <div class="quote-metric-row">
+                                    <span>Proje Zorluğu:</span>
+                                    <span id="summaryComplexity" style="color:var(--accent-gold);">Orta - Yüksek</span>
+                                </div>
+                            </div>
+
+                            <div style="background:rgba(215,177,90,0.06); border:1px solid rgba(215,177,90,0.18); border-radius:var(--radius-sm); padding:0.85rem; font-size:0.75rem; color:var(--text-secondary); line-height:1.45;">
+                                💡 <strong>Şeffaflık İlkesi:</strong> Belirtilen fiyat aralığı anahtar teslim maliyeti kapsar; sürpriz veya gizli ek ücret çıkarılmaz.
+                            </div>
+                        </aside>
+                    </div><!-- /.quote-workspace -->
+                </div><!-- /.quote-engine-wrapper -->
+
+                    </div>
+                </div>
+
+            </div><!-- /.page-container-wide -->
+        </section>
+
+        <div class="page-container">
+
+            <!-- ============================================================
+                 BÖLÜM 07 · PAKET KARŞILAŞTIRMA TABLOSU
+                 ============================================================ -->
+            <section class="section" id="karsilastirma">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 07 · DETAYLI MATRİS</span>
+                    <h2 class="section-title">Paket Karşılaştırma Tablosu</h2>
+                    <p class="section-desc">
+                        İhtiyaçlarınıza en uygun paketi belirlemek için sunduğumuz tüm özellikleri şeffafça yan yana kıyaslayın.
+                    </p>
+                </header>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Özellik / Kapsam</th>
+                                <th>Başlangıç<br><span style="font-weight:400; font-size:0.7rem; color:var(--text-secondary);"><span style="white-space:nowrap;">4.500 – 7.500 ₺</span></span></th>
+                                <th class="highlight-col">Profesyonel ⭐<br><span style="font-weight:400; font-size:0.7rem; color:var(--accent-gold);"><span style="white-space:nowrap;">8.900 – 13.900 ₺</span></span></th>
+                                <th>Kurumsal<br><span style="font-weight:400; font-size:0.7rem; color:var(--text-secondary);"><span style="white-space:nowrap;">18.500 – 27.500 ₺</span></span></th>
+                                <th>Özel Proje<br><span style="font-weight:400; font-size:0.7rem; color:var(--text-secondary);"><span style="white-space:nowrap;">34.500 ₺ +</span></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Özel Ana Sayfa Tasarımı</td>
+                                <td class="check">✓</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Sayfa Sayısı Kapsamı</td>
+                                <td>1–3 Sayfa</td>
+                                <td class="highlight-col">4–6 Sayfa</td>
+                                <td>6–10 Sayfa</td>
+                                <td>Proje Bazlı (Sınırsız)</td>
+                            </tr>
+                            <tr>
+                                <td>Mobil & Tablet Optimizasyonu</td>
+                                <td class="check">✓ Standart</td>
+                                <td class="check highlight-col">✓ Gelişmiş</td>
+                                <td class="check">✓ Gelişmiş</td>
+                                <td class="check">✓ Kusursuz</td>
+                            </tr>
+                            <tr>
+                                <td>Hızlı E-Posta & Form Entegrasyonu</td>
+                                <td class="check">✓</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Google Maps Harita Konumu</td>
+                                <td class="check">✓</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Dinamik İletişim Formu</td>
+                                <td class="cross">—</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓ Özel Alanlı</td>
+                                <td class="check">✓ Gelişmiş / CRM</td>
+                            </tr>
+                            <tr>
+                                <td>Fotoğraf / Ürün Galerisi</td>
+                                <td class="cross">—</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓ Filtrelenebilir</td>
+                                <td class="check">✓ Sınırsız</td>
+                            </tr>
+                            <tr>
+                                <td>Sosyal Medya Entegrasyonu</td>
+                                <td class="cross">—</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Temel Teknik SEO</td>
+                                <td class="check">✓</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Gelişmiş SEO & Şema Verisi</td>
+                                <td class="cross">—</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓ Tam Kapsam</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Animasyonlar & Mikro Etkileşimler</td>
+                                <td class="cross">—</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓ Gelişmiş GSAP</td>
+                                <td class="check">✓ 3D / WebGL</td>
+                            </tr>
+                            <tr>
+                                <td>Blog / Haber Yönetim Altyapısı</td>
+                                <td class="cross">—</td>
+                                <td class="cross highlight-col">—</td>
+                                <td class="check">✓</td>
+                                <td class="check">✓</td>
+                            </tr>
+                            <tr>
+                                <td>Özgün UI/UX Tasarım Dili</td>
+                                <td class="cross">—</td>
+                                <td class="check highlight-col">✓</td>
+                                <td class="check">✓ Tamamen Butik</td>
+                                <td class="check">✓ Lüks Özel</td>
+                            </tr>
+                            <tr>
+                                <td>3D İnteraktif Deneyim / Vitrin</td>
+                                <td class="cross">—</td>
+                                <td class="cross highlight-col">—</td>
+                                <td>İsteğe Bağlı</td>
+                                <td class="check">✓ Özel Tasarım</td>
+                            </tr>
+                            <tr>
+                                <td>Garantili Revizyon Hakkı</td>
+                                <td>1 Adet</td>
+                                <td class="highlight-col"><strong>2 Adet</strong></td>
+                                <td><strong>2 Adet</strong></td>
+                                <td>Proje Bazlı Esnek</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="scroll-hint">↔ Tabloyu yana kaydırarak tüm sütunları inceleyebilirsiniz</div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 08 · DOMAIN & HOSTING SİSTEMİ
+                 ============================================================ -->
+            <section class="section" id="domain">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 08 · ALTYAPI & MÜLKİYET</span>
+                    <h2 class="section-title">Domain Mülkiyeti & Barındırma Standartları</h2>
+                    <p class="section-desc">
+                        EroCore Web Studio'da şeffaflık esastır: Domain ve sunucu mülkiyeti daima müşterinin kendi kontrolünde kalır.
+                    </p>
+                </header>
+
+                <div class="card card-accent mb-4">
+                    <h3 class="text-accent">Domain Mülkiyeti — %100 Müşteri Kontrolü</h3>
+                    <p class="text-small" style="margin:0;">
+                        Domain <strong>kesinlikle müşterinin kendi adına ve hesabı üzerinden</strong> tescil edilir. En profesyonel yaklaşım:
+                        Müşteri tercih ettiği domain sağlayıcısında (Turhost, Natro, vb.) kendi hesabını açar, ödemeyi doğrudan sağlayıcıya yapar.
+                        EroCore Web Studio sadece gerekli teknik DNS bağlantılarını kurar. Bu sayede gelecekte başka bir geliştiriciyle çalışsanız bile
+                        <strong>domaininiz asla rehin kalmaz, daima sizin mülkiyetinizdedir.</strong>
+                    </p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>Domain Avantajlarımız</h4>
+                        <ul style="font-size:0.85rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.4rem;">
+                            <li>✓ Domain tamamen ve yasal olarak <strong>müşteriye aittir</strong>.</li>
+                            <li>✓ EroCore domaini asla kendi üzerine alarak müşteriyi bağlamaz.</li>
+                            <li>✓ Yıllık yenileme bedelleri doğrudan sağlayıcıya aracısız ödenir.</li>
+                            <li>✓ Tüm DNS ve e-posta kayıtları profesyonelce tarafımızdan yapılandırılır.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4>Hosting (Barındırma) Modelleri</h4>
+                        <div style="margin-bottom:0.8rem;">
+                            <strong style="color:var(--accent-gold); font-size:0.9rem;">A) Ücretsiz / Düşük Maliyetli Yayın:</strong>
+                            <p class="text-xs" style="margin:0.2rem 0 0.6rem;">Küçük ve temel tanıtım siteleri için GitHub Pages / Cloudflare Pages altyapısıyla 0 TL sunucu masrafı.</p>
+                        </div>
+                        <div>
+                            <strong style="color:var(--accent-gold); font-size:0.9rem;">B) Profesyonel Kurumsal Hosting:</strong>
+                            <p class="text-xs" style="margin:0.2rem 0 0;">Yüksek trafik, kurumsal e-posta adresleri (info@siteniz.com), veritabanı ve maksimum hız için cPanel/Plesk çözümleri.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Domain Fiyat Tablosu -->
+                <div class="mt-4">
+                    <h3 class="mt-4 mb-2">2026 Güncel Domain Sağlayıcıları ve Piyasa Fiyatları</h3>
+                    <p class="text-xs text-muted">
+                        Fiyatlar 2026 yılı ortalama piyasa değerleridir ve sağlayıcıların güncel kampanyalarına göre değişiklik gösterebilir.
+                    </p>
+                    <div class="table-wrapper mt-2">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sağlayıcı</th>
+                                    <th>Uzantı</th>
+                                    <th>İlk Kayıt Bedeli</th>
+                                    <th>Yıllık Yenileme</th>
+                                    <th>Öne Çıkan Not</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Turhost</td><td>.com</td><td>~440 ₺ / yıl</td><td>~440 ₺ / yıl</td><td>Hızlı destek & rekabetçi</td></tr>
+                                <tr><td>Turhost</td><td>.com.tr</td><td>~230 ₺ / yıl</td><td>~230 ₺ / yıl</td><td>Resmi TR kurumsal uzantı</td></tr>
+                                <tr><td>Natro</td><td>.com</td><td>~480 ₺ / yıl</td><td>~480 ₺ / yıl</td><td>Köklü yerli sağlayıcı</td></tr>
+                                <tr><td>Natro</td><td>.com.tr</td><td>~260 ₺ / yıl</td><td>~260 ₺ / yıl</td><td>Belgesiz tahsis</td></tr>
+                                <tr><td>Natro</td><td>.tr</td><td>~650 ₺ / yıl</td><td>~650 ₺ / yıl</td><td>Yeni prestijli doğrudan .tr</td></tr>
+                                <tr><td>Veridyen</td><td>.com</td><td>~490 ₺ / yıl</td><td>~490 ₺ / yıl</td><td>Yüksek uptime garantisi</td></tr>
+                                <tr><td>Veridyen</td><td>.com.tr</td><td>~270 ₺ / yıl</td><td>~270 ₺ / yıl</td><td>Kurumsal altyapı</td></tr>
+                                <tr><td>Hostinger</td><td>.com</td><td>~380 ₺ / yıl</td><td>~580 ₺ / yıl</td><td>İlk yıl indirimli kampanya</td></tr>
+                                <tr><td>Hostinger</td><td>.com.tr</td><td>~220 ₺ / yıl</td><td>~360 ₺ / yıl</td><td>TR uzantı seçeneği</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 09 · ÖDEME & REVİZYON SİSTEMİ
+                 ============================================================ -->
+            <section class="section" id="odeme">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 09 · SÖZLEŞME & KURALLAR</span>
+                    <h2 class="section-title">Ödeme Sistemi & Revizyon Politikası</h2>
+                    <p class="section-desc">
+                        Karşılıklı güvene dayalı, iki aşamalı şeffaf ödeme planı ve sınırları net çizilmiş profesyonel revizyon hakları.
+                    </p>
+                </header>
+
+                <div class="card card-highlight mb-4">
+                    <h3 class="text-accent text-center mb-3">Standart Projelerde %50 + %50 Ödeme Modeli</h3>
+                    <div class="flex gap-4 flex-wrap" style="justify-content:space-around;">
+                        <div style="text-align:center;">
+                            <div style="font-size:clamp(2rem, 4vw, 2.6rem); font-weight:800; color:var(--accent-gold);">%50</div>
+                            <p class="text-small" style="margin:0;"><strong>Başlangıç Peşinatı</strong><br>Proje resmi başlangıcında</p>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-size:clamp(2rem, 4vw, 2.6rem); font-weight:800; color:var(--accent-gold);">%50</div>
+                            <p class="text-small" style="margin:0;"><strong>Son Aşama Ödemesi</strong><br>Son onay ve teslimat öncesinde</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card process-flow-card mb-4">
+                    <h4>12 Adımlı Ödeme & Teslimat Döngüsü</h4>
+                    <ol class="process-flow-list">
+                        <li>Proje kapsamı ve istekler netleştirilir.</li>
+                        <li>Müşteri resmi teklifi onaylar.</li>
+                        <li>Toplam bedelin %50'si başlangıç ödemesi olarak tahsil edilir.</li>
+                        <li>Tasarım ve kodlama geliştirme süreci başlar.</li>
+                        <li>Çalışan canlı demo sürümü müşteri incelemesine sunulur.</li>
+                        <li>Müşterinin 2 revizyon hakkı çerçevesindeki geri bildirimleri uygulanır.</li>
+                        <li>Son sürüm nihai müşteri onayına iletilir.</li>
+                        <li>Müşteri yazılı son onayını verir.</li>
+                        <li>Kalan %50 son ödeme tahsil edilir.</li>
+                        <li>Domain DNS ve barındırma bağlantıları tamamlanır.</li>
+                        <li>Web sitesi küresel yayına aktif hale getirilir.</li>
+                        <li>Tüm yönetim bilgileri müşteriye teslim edilir.</li>
+                    </ol>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card card-accent">
+                        <h4 style="color:var(--accent-gold);">Revizyon Kapsamına Girenler</h4>
+                        <ul style="font-size:0.82rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.3rem;">
+                            <li>• Başlık, paragraf ve metin düzeltmeleri</li>
+                            <li>• Görsel, fotoğraf ve logo değişiklikleri</li>
+                            <li>• Renk tonu ve tipografi ince ayarları</li>
+                            <li>• Bölüm ve blok içi yerleşim düzenlemeleri</li>
+                            <li>• İletişim bilgileri ve bağlantı güncellemeleri</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h4 style="color:var(--text-primary);">Revizyon Kapsamı Dışında Kalanlar</h4>
+                        <ul style="font-size:0.82rem; color:var(--text-muted); display:flex; flex-direction:column; gap:0.3rem;">
+                            <li>✗ Projeyi baştan tamamen farklı bir tasarımla sıfırlamak</li>
+                            <li>✗ Onaylanan site mimarisini ve sayfa kurgusunu bozmak</li>
+                            <li>✗ Teklifte olmayan yepyeni sayfalar talep etmek</li>
+                            <li>✗ Kapsam dışı yeni veritabanı, üyelik veya e-ticaret eklemek</li>
+                            <li>(Bu tip talepler ek geliştirme olarak ayrı fiyatlandırılır)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="text-xs text-muted mt-3">
+                    <strong>Temel Ticari Kural:</strong> Kalan son bakiye ödemesi tamamlanmadan projenin canlı yayına aktarımı ve kaynak erişimlerinin teslimi gerçekleştirilmez.
+                </p>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 10 · TESLİMAT & EK HİZMETLER
+                 ============================================================ -->
+            <section class="section" id="teslimat">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 10 · DESTEK & EK İŞLER</span>
+                    <h2 class="section-title">Teslimat Kapsamı & Ek Hizmetler</h2>
+                    <p class="section-desc">
+                        Sitenizi yayına aldığımızda neleri teslim alacaksınız ve proje sonrasında hangi ek hizmetlerden yararlanabilirsiniz?
+                    </p>
+                </header>
+
+                <h3>Eksiksiz Teslimat Kontrol Listesi</h3>
+                <div class="feature-grid mt-2 mb-4">
+                    <div class="feature-item">
+                        <span class="icon">🌐</span>
+                        <div>
+                            <div class="label">Canlı ve Test Edilmiş Web Sitesi</div>
+                            <div class="desc">Tüm tarayıcılarda test edilmiş, %100 çalışan nihai web sitesi.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📱</span>
+                        <div>
+                            <div class="label">Tam Mobil Optimizasyon</div>
+                            <div class="desc">Telefon ve tabletlerde sıfır kayma ve dokunmatik uyumlu menü deneyimi.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🔗</span>
+                        <div>
+                            <div class="label">Eksiksiz DNS & Domain Bağlantısı</div>
+                            <div class="desc">Domain adresinizin sunucuya hatasız yönlendirilmesi ve aktifleşmesi.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📋</span>
+                        <div>
+                            <div class="label">Çalışır Durumda İletişim Formları</div>
+                            <div class="desc">Gelen mesajların doğrudan e-postanıza güvenle düşmesi için SMTP/Mailto testleri.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">🔐</span>
+                        <div>
+                            <div class="label">SSL Sertifikası & Güvenlik</div>
+                            <div class="desc">HTTPS yeşil kilit güvenlik protokolü ve temel güvenlik yapılandırması.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="icon">📂</span>
+                        <div>
+                            <div class="label">Tüm Erişim ve Yönetim Bilgileri</div>
+                            <div class="desc">Hosting, FTP veya kod deposu şifrelerinin eksiksiz teslimi.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <h4 class="text-accent mb-2">Proje Sonrası 30 Gün Ücretsiz Garanti</h4>
+                    <p class="text-small" style="margin:0;">
+                        Teslimatı takip eden <strong>ilk 30 gün boyunca</strong>, kodlama veya geliştirme kaynaklı meydana gelebilecek olası teknik hatalar
+                        <strong>tamamen ücretsiz olarak düzeltilir</strong>. Harici kurcalama veya sunucu sağlayıcısı kaynaklı kesintiler ayrı değerlendirilir.
+                    </p>
+                </div>
+
+                <h3>İsteğe Bağlı Ek Hizmetler ve Fiyatlandırma</h3>
+                <p class="text-xs text-muted mb-2">
+                    Aşağıdaki hizmetler standart proje paketlerine dahil olmayıp ihtiyaç duyulduğunda ek olarak satın alınabilir:
+                </p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ek Hizmet Kalemi</th>
+                                <th>Birim Fiyatı</th>
+                                <th>Hizmet Açıklaması</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ek Revizyon Hakkı</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">750 ₺ / adet</td>
+                                <td>Paketteki revizyon hakları tamamlandıktan sonra talep edilen ekstra revizyonlar.</td>
+                            </tr>
+                            <tr>
+                                <td>Ek Alt Sayfa Tasarımı & Kodlaması</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">1.250 ₺ / sayfa</td>
+                                <td>Yeni hizmet, referans veya özel içerik sayfası tasarımı ve sisteme entegrasyonu.</td>
+                            </tr>
+                            <tr>
+                                <td>İçerik & Metin Güncelleme Hizmeti</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">650 ₺ / saat</td>
+                                <td>Mevcut sitedeki metin, fiyat, görsel ve menü değişikliklerinin saatlik uygulanması.</td>
+                            </tr>
+                            <tr>
+                                <td>Aylık Düzenli Bakım & Güvenlik Paketi</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">2.500 ₺ / ay</td>
+                                <td>Aylık yedekleme, hız optimizasyonu, güvenlik takibi ve 2 saatlik ücretsiz içerik güncellemesi.</td>
+                            </tr>
+                            <tr>
+                                <td>E-Ticaret / Sepet / Sanal POS Modülü</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">16.000 ₺ +</td>
+                                <td>Sitenize iyzico/PayTR sanal pos, sepet ve ödeme altyapısı entegre edilmesi.</td>
+                            </tr>
+                            <tr>
+                                <td>Online Rezervasyon / Randevu Sistemi</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">11.000 ₺ +</td>
+                                <td>Tarih ve saat seçimli online müşteri randevu ve onay mekanizması.</td>
+                            </tr>
+                            <tr>
+                                <td>Özel 3D Sahne / Ürün Vitrini</td>
+                                <td style="color:var(--accent-gold); font-weight:700;">9.000 ₺ +</td>
+                                <td>Sitenize özel WebGL interaktif 3D ürün çevirme veya sahne animasyonu entegrasyonu.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 11 · SIK SORULAN SORULAR (SSS)
+                 ============================================================ -->
+            <section class="section" id="sss">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 11 · MERAK EDİLENLER</span>
+                    <h2 class="section-title">Sık Sorulan Sorular</h2>
+                    <p class="section-desc">
+                        Web tasarım ve teklif sürecimize dair işletme sahiplerinin aklına en sık takılan sorular ve şeffaf yanıtlarımız.
+                    </p>
+                </header>
+
+                <div class="faq-grid">
+                    <div class="faq-item active">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Ücretsiz demo gerçekten ücretsiz mi, sonradan sürpriz ücret çıkar mı?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Evet, demo tamamen ücretsizdir ve hiçbir taahhüt gerektirmez. Demoyu inceledikten sonra projeye devam etmeme kararı alırsanız hiçbir bedel talep edilmez.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Demo sonrası anlaşılan proje fiyatı süreç içerisinde artar mı?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Kesinlikle hayır. Başlangıçta yazılı olarak mutabık kaldığımız paket fiyatı geçerlidir. Fiyat artışı yalnızca müşteri proje kapsamı dışında yeni sayfalar veya fonksiyonlar talep ettiğinde ve önceden onayladığında söz konusu olabilir.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Ödeme nasıl ve hangi kanalla yapılıyor, güvenli mi?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Ödemeler resmi banka havalesi veya EFT yoluyla gerçekleştirilir. Proje başlangıcında %50 başlangıç ödemesi alınır, son onay sonrası ve teslimat öncesinde kalan %50 tahsil edilir. Tüm ödeme adımları yazılı dekont ve sözleşme ile kayıt altındadır.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Proje teslim edildikten sonra sitede bir sorun çıkarsa ne olur?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Teslimat sonrasındaki ilk 30 gün boyunca kodlama veya geliştirme kaynaklı tüm teknik aksaklıklar ve hatalar tarafımızca ücretsiz olarak düzeltilir. Ayrıca dileyen müşterilerimiz aylık bakım paketimizle kesintisiz destek almaya devam edebilir.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Web sitesi için tarafınıza hangi bilgileri sağlamam gerekiyor?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>İşletmenizin logosu, firma tanıtım metni, verdiğiniz hizmetlerin listesi, varsa kaliteli ürün/mekan fotoğrafları, telefon, adres ve sosyal medya bağlantıları yeterlidir. Eksik materyaller için size içerik hazırlama rehberimizle destek oluyoruz.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Sitemi ileride başka bir firmaya veya sunucuya taşıyabilir miyim?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Evet, %100 özgürsünüz! Domain mülkiyeti doğrudan sizin adınıza olduğu ve kodlar standart modern web teknolojileriyle yazıldığı için istediğiniz zaman sitenizi başka bir sunucuya veya geliştiriciye sorunsuzca taşıyabilirsiniz.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <div class="faq-q-text">Hosting ve domain ücretlerini ne zaman ve kime ödeyeceğim?</div>
+                            <span class="faq-toggle-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Domain ücreti doğrudan tercih ettiğiniz sağlayıcıya yıllık olarak ödenir. Hosting ücreti de seçilen plana göre sağlayıcıya yıllık ya da aylık ödenir. İlk kurulumda en uygun ve en ekonomik sağlayıcıyı seçmeniz için size birebir rehberlik ediyoruz.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 BÖLÜM 12 · PROJE ONAYI & İLETİŞİM
+                 ============================================================ -->
+            <section class="section" id="iletisim">
+                <header class="section-header">
+                    <span class="section-eyebrow">— 12 · İLETİŞİM & TEKLİF</span>
+                    <h2 class="section-title">Projenizi Birlikte Hayata Geçirelim</h2>
+                    <p class="section-desc">
+                        Aşağıdaki formu doldurarak veya doğrudan iletişim kanallarımızdan bize ulaşarak
+                        ücretsiz ön demonuzu talep edebilir ve projenizi başlatabilirsiniz.
+                    </p>
+                </header>
+
+                <div class="contact-grid">
+                    <!-- Sol Kart: Şartlar ve Taahhütler -->
+                    <div class="contact-card">
+                        <h3 class="text-accent mb-3">EroCore Güvencesi</h3>
+                        <p class="text-small mb-3">Teklifimizi onayladığınızda geçerli olan temel standartlarımız:</p>
+
+                        <ul style="font-size:0.85rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.6rem;">
+                            <li>✓ <strong>Şeffaf Kapsam:</strong> Anlaşılan pakete ait tüm maddeler eksiksiz uygulanır.</li>
+                            <li>✓ <strong>Garantili Revizyon:</strong> Paketinizdeki 2 revizyon hakkı titizlikle işletilir.</li>
+                            <li>✓ <strong>%50 + %50 Ödeme:</strong> Son onay verilmeden kalan bakiye ödenmez.</li>
+                            <li>✓ <strong>Mülkiyet Bağımsızlığı:</strong> Domain ve tüm kodlar size aittir.</li>
+                            <li>✓ <strong>14 Gün Teslimat:</strong> Zamanında teslimat odaklı planlı çalışma.</li>
+                        </ul>
+
+                        <div class="divider"></div>
+
+                        <div style="margin-top:1.5rem;">
+                            <h4 style="font-size:0.95rem; margin-bottom:0.6rem;">Doğrudan İletişim Kanalları</h4>
+                            <p class="text-small" style="margin-bottom:0.4rem;">
+                                📧 <strong>E-Posta:</strong> <a href="mailto:mehmeteroglu911@outlook.com.tr" class="text-accent">mehmeteroglu911@outlook.com.tr</a>
+                            </p>
+                            <p class="text-small" style="margin-bottom:0.4rem;">
+                                💻 <strong>GitHub:</strong> <a href="https://github.com/EroCores" target="_blank" class="text-cyan">github.com/EroCores</a>
+                            </p>
+                            <p class="text-small" style="margin-bottom:0;">
+                                📍 <strong>Konum:</strong> Türkiye / Uzaktan & Hibrit Proje Geliştirme
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Kart: İnteraktif Teklif Formu -->
+                    <div class="contact-card" style="border-color:var(--border-strong);">
+                        <h3 class="mb-3">Teklif & Demo Talep Formu</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="formName">Adınız / Firmanız *</label>
+                                <input type="text" id="formName" name="name" class="form-control" placeholder="Örn: Ahmet Yılmaz — ABC Danışmanlık" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="formEmail">E-Posta Adresiniz *</label>
+                                <input type="email" id="formEmail" name="email" class="form-control" placeholder="Örn: iletisim@firmaniz.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="formCategory">İletişim Kategorisi *</label>
+                                <select id="formCategory" name="category" class="form-control" required>
+                                    <option value="Teklif / Proje Görüşmesi">Teklif / Proje Görüşmesi</option>
+                                    <option value="Yardım & Destek">Yardım & Destek</option>
+                                    <option value="Diğer">Diğer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="formPackage">İlgilendiğiniz Paket</label>
+                                <select id="formPackage" name="package" class="form-control">
+                                    <option value="profesyonel">Profesyonel Paket (8.900 – 13.900 ₺) ⭐</option>
+                                    <option value="baslangic">Başlangıç Paketi (4.500 – 7.500 ₺)</option>
+                                    <option value="kurumsal">Kurumsal Paket (18.500 – 27.500 ₺)</option>
+                                    <option value="ozel">Özel Proje / Web Uygulaması (34.500 ₺ +)</option>
+                                    <option value="demo">Sadece Ücretsiz Ön Demo İstiyorum</option>
+                                    <option value="yardim">Yardım / Destek</option>
+                                    <option value="diger">Diğer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="formMessage">Projeniz Hakkında Kısaca Bilgi</label>
+                                <textarea id="formMessage" name="message" class="form-control" placeholder="Sektörünüz, istediğiniz renkler, yardım talebi veya sorunuz..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%;">Talebi Gönder ✨</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /.page-container -->
+    </main>
+
+        <!-- ============ FLOATING HIZLI TEKLİF & İLETİŞİM ============ -->
+    <a href="#quoteEngineSection" class="floating-quote-btn" aria-label="Hızlı Teklif Hesapla">
+        <span style="font-size:1.2rem;">✨</span>
+        <span>Akıllı Teklif Al</span>
+    </a>
+
+    <!-- ============ LÜKS FOOTER ============ -->
+    <footer class="footer">
+        <div class="page-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
+                        <img src="logo.png" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='assets/images/logo.png';}" alt="EroCore Logo" style="width:38px; height:38px; border-radius:50%; border:1px solid var(--accent-gold);">
+                        <h4 style="margin:0;">EroCore Web Studio</h4>
+                    </div>
+                    <p>
+                        İşletmelere özel, modern, mobil uyumlu ve 3D interaktif web deneyimleri tasarlayan butik dijital stüdyo.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h5>Hızlı Menü</h5>
+                    <ul class="footer-links">
+                        <li><a href="#hakkimizda">Hakkımızda</a></li>
+                        <li><a href="#araclar">Teknoloji Yığını</a></li>
+                        <li><a href="#demo">Ücretsiz Ön Demo</a></li>
+                        <li><a href="#surec">10 Adımlı Süreç</a></li>
+                        <li><a href="#sss">Sık Sorulanlar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Hizmet Paketleri</h5>
+                    <ul class="footer-links">
+                        <li><a href="#fiyatlandirma">Başlangıç Paketi</a></li>
+                        <li><a href="#fiyatlandirma">Profesyonel Paket ⭐</a></li>
+                        <li><a href="#fiyatlandirma">Kurumsal Paket</a></li>
+                        <li><a href="#fiyatlandirma">Özel Proje</a></li>
+                        <li><a href="#karsilastirma">Karşılaştırma Matrisi</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>İletişim & Kanallar</h5>
+                    <ul class="footer-links">
+                        <li><a href="mailto:mehmeteroglu911@outlook.com.tr">mehmeteroglu911@outlook.com.tr</a></li>
+                        <li><a href="https://github.com/EroCores" target="_blank">GitHub: EroCores</a></li>
+                        <li><a href="#iletisim">Teklif Talep Formu</a></li>
+                        <li><a href="mailto:mehmeteroglu911@outlook.com.tr">Doğrudan E-Posta Desteği</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 EroCore Web Studio — Tüm hakları saklıdır. Butik Dijital Çözümler.</div>
+                <a href="#hero" class="back-to-top-btn">Yukarı Çık ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Master JavaScript -->
+    <script src="main.js"></script>
+</body>
+</html>
