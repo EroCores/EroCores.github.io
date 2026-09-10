@@ -1,87 +1,56 @@
 # ==============================================================================
-#  EROCORE WEB STUDIO — GITHUB PAGES / JEKYLL YAPILANDIRMASI
-# ==============================================================================
-#  Sürüm     : 1.0.0
-#  Kapsam    : Statik HTML sitesi için optimize edilmiş Jekyll yapılandırması.
-#  Not       : Tema KULLANILMAZ — saf statik HTML + CSS + JS mimarisi.
+#  EROCORE WEB STUDIO — JEKYLL / GITHUB PAGES YAPILANDIRMASI
+#  Sürüm     : 2.0.0
+#  Uyumluluk : github-pages v232 (jekyll 3.10.x)
+#  Not       : Tema yok — saf statik HTML + CSS + JS mimarisi.
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
 #  01 · SİTE KİMLİĞİ
 # ------------------------------------------------------------------------------
-title: EroCore Web Studio
-tagline: Geleceğin Web Deneyimi — 3D İnteraktif Tasarım & Geliştirme
+title: "EroCore Web Studio"
+tagline: "Geleceğin Web Deneyimi — 3D İnteraktif Tasarım & Geliştirme"
 description: >-
-  EroCore Web Studio, işletmelere modern, mobil uyumlu ve 3D interaktif web siteleri
-  tasarlayan butik bir web stüdyosudur. Ücretsiz demo, şeffaf fiyatlandırma,
-  2 revizyon hakkı ve profesyonel teslim.
+  EroCore Web Studio, işletmelere modern, mobil uyumlu ve 3D interaktif web
+  siteleri tasarlayan butik bir web stüdyosudur. Ücretsiz demo, şeffaf
+  fiyatlandırma, 2 revizyon hakkı ve profesyonel teslim.
 
-# Site kök URL'si (GitHub Pages için)
 url: "https://erocores.github.io"
 baseurl: ""
 
-# Dil ve bölge
 lang: tr-TR
-locale: tr_TR
 timezone: Europe/Istanbul
 
 # ------------------------------------------------------------------------------
 #  02 · YAZAR VE İLETİŞİM
 # ------------------------------------------------------------------------------
 author:
-  name: Mehmet — EroCore Web Studio
-  email: mehmeteroglu911@outlook.com.tr
+  name: "Mehmet — EroCore Web Studio"
+  email: "mehmeteroglu911@outlook.com.tr"
   url: "https://erocores.github.io"
-  github: EroCores
 
-email: mehmeteroglu911@outlook.com.tr
+email: "mehmeteroglu911@outlook.com.tr"
 github_username: EroCores
-repo: EroCores/EroCores.github.io
-website: "https://erocores.github.io"
 
 # ------------------------------------------------------------------------------
-#  03 · SOSYAL MEDYA VE KİMLİK
+#  03 · SOSYAL MEDYA / SEO GÖRSELLERİ
 # ------------------------------------------------------------------------------
-social:
-  name: EroCore Web Studio
-  email: mehmeteroglu911@outlook.com.tr
-  links:
-    - https://github.com/EroCores
-    - mailto:mehmeteroglu911@outlook.com.tr
+logo: /assets/images/erocore-og.png
+image: /assets/images/erocore-og.png
 
 twitter:
   username: EroCores
   card: summary_large_image
   creator: "@EroCores"
 
-# OpenGraph paylaşım önizlemesi
-logo: /assets/images/erocore-og.png
-image: /assets/images/erocore-og.png
-image_alt: "EroCore Web Studio — 3D İnteraktif Web Tasarımı"
+social:
+  name: EroCore Web Studio
+  links:
+    - https://github.com/EroCores
+    - mailto:mehmeteroglu911@outlook.com.tr
 
 # ------------------------------------------------------------------------------
-#  04 · OPEN GRAPH / TWITTER CARD (jekyll-seo-tag)
-# ------------------------------------------------------------------------------
-defaults:
-  - scope:
-      path: ""
-    values:
-      image: /assets/images/erocore-og.png
-      layout: null
-      sitemap: true
-      changefreq: weekly
-      priority: 0.8
-
-# ------------------------------------------------------------------------------
-#  05 · TEMA (KAPALI)
-# ------------------------------------------------------------------------------
-# Statik HTML kullandığımız için Jekyll teması devre dışı bırakılmıştır.
-# Tema kullanımı, mevcut index.html'i bozar ve Jekyll default layout'u
-# etkinleştirir. Bu satır kasten yorum satırı olarak bırakılmıştır.
-# theme: jekyll-theme-minimal
-
-# ------------------------------------------------------------------------------
-#  06 · MARKDOWN VE İŞLEME
+#  04 · MARKDOWN VE SYNTAX HIGHLIGHTING
 # ------------------------------------------------------------------------------
 markdown: kramdown
 highlighter: rouge
@@ -90,13 +59,11 @@ kramdown:
   input: GFM
   auto_ids: true
   syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    block:
-      line_numbers: false
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
   hard_wrap: false
 
-# YAML başlığı olmayan dosyalar olduğu gibi kopyalansın (index.html, style.css, main.js)
+# ------------------------------------------------------------------------------
+#  05 · DOSYA DAHİL ETME / HARİÇ TUTMA
+# ------------------------------------------------------------------------------
 include:
   - .htaccess
   - _redirects
@@ -111,19 +78,13 @@ exclude:
   - Gemfile.lock
   - package.json
   - package-lock.json
+  - README.md
   - "*.log"
   - "*.tmp"
 
-# Jekyll'in "_" ile başlayan dosyaları atlamaması için
-keep_files:
-  - .git
-  - .svn
-
 # ------------------------------------------------------------------------------
-#  07 · EKLENTİLER (GitHub Pages Whitelist Uyumlu)
+#  06 · EKLENTİLER (GitHub Pages Whitelist Uyumlu)
 # ------------------------------------------------------------------------------
-# Not: GitHub Pages, yalnızca belirli Jekyll eklentilerine izin verir.
-# Aşağıdaki liste izin verilen ve bizim işimize yarayacak eklentileri içerir.
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
@@ -133,111 +94,38 @@ plugins:
   - jekyll-readme-index
   - jekyll-titles-from-headings
 
-# SEO Tag ayarları
-seo_tag:
-  logo: /assets/images/erocore-og.png
-  twitter:
-    username: EroCores
-    card: summary_large_image
+# ------------------------------------------------------------------------------
+#  07 · VARSAYILAN DEĞERLER (jekyll-seo-tag için OG görseli)
+# ------------------------------------------------------------------------------
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/erocore-og.png
+      sitemap: true
 
-# Sitemap ayarları
-sitemap:
-  filename: sitemap.xml
-  exclude:
-    - /404.html
-  include_posts:
-    - /index.html
-
-# Feed (RSS) ayarları
+# ------------------------------------------------------------------------------
+#  08 · RSS / FEED
+# ------------------------------------------------------------------------------
 feed:
   path: feed.xml
-  excerpt_only: false
   posts_limit: 20
-  categories:
-    - web
-    - tasarım
-    - geliştirme
 
 # ------------------------------------------------------------------------------
-#  08 · PERFORMANS VE SIKIŞTIRMA (Jekyll Tarafı)
+#  09 · URL YAPISI
 # ------------------------------------------------------------------------------
-# Not: GitHub Pages üzerinde Jekyll derlemesinde minify kullanılamaz
-# (jekyll-minifier whitelist dışıdır). Aşağıdaki ayarlar yalnızca
-# Jekyll'in HTML çıktısında ekstra boşluk/whitespace üretmemesini sağlar.
-# Gerçek sıkıştırma (gzip/brotli) CDN / GitHub Pages tarafında otomatik yapılır.
-
-compress_html:
-  clippings: all
-  comments: ["<!--", "-->"]
-  endings: all
-  ignore:
-    envs: [development]
-  blanklines: false
-  profile: false
-
-# SASS/SCSS ayarları (kullanılmıyor, statik CSS var)
-sass:
-  style: compressed
-  sass_dir: _sass
-
-# Statik dosya optimizasyonu için incremental build
-incremental: true
-
-# Jekyll önbelleği
-liquid:
-  error_mode: strict
-  strict_filters: true
-  strict_variables: false
+permalink: pretty
 
 # ------------------------------------------------------------------------------
-#  09 · COLLECTIONS (Gelecek Vaka Çalışmaları İçin)
+#  10 · COLLECTIONS (Blog + Vaka Çalışmaları)
 # ------------------------------------------------------------------------------
 collections:
   projects:
     output: true
     permalink: /projeler/:slug/
-    sort_by: date
   posts:
     output: true
     permalink: /blog/:year/:month/:day/:title/
-
-# ------------------------------------------------------------------------------
-#  10 · SAYFALAMA VE URL YAPISI
-# ------------------------------------------------------------------------------
-paginate: 10
-paginate_path: "/blog/sayfa:num/"
-
-permalink: pretty
-
-# 404 sayfası
-redirect_from:
-  - /home/
-  - /anasayfa/
-
-# ------------------------------------------------------------------------------
-#  11 · GELİŞTİRME SUNUCUSU
-# ------------------------------------------------------------------------------
-# Yerel test için: `bundle exec jekyll serve`
-host: 127.0.0.1
-port: 4000
-livereload: true
-
-# ------------------------------------------------------------------------------
-#  12 · ANALİTİK (Opsiyonel)
-# ------------------------------------------------------------------------------
-# Google Analytics 4 kullanmak isterseniz Tracking ID'nizi buraya ekleyin.
-# Yorumlu bırakılmıştır çünkü kullanıcı onayı olmadan aktif edilmemelidir.
-# google_analytics: G-XXXXXXXXXX
-
-# ------------------------------------------------------------------------------
-#  13 · GÜVENLİK VE HEADER'LAR (bilgi amaçlı)
-# ------------------------------------------------------------------------------
-# Gerçek güvenlik header'ları GitHub Pages tarafından yönetilir.
-# Referans için:
-#   X-Content-Type-Options: nosniff
-#   X-Frame-Options: SAMEORIGIN
-#   Referrer-Policy: strict-origin-when-cross-origin
-#   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 # ==============================================================================
 #  YAPILANDIRMA SONU
