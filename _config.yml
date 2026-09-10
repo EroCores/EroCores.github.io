@@ -127,6 +127,30 @@ collections:
     output: true
     permalink: /blog/:year/:month/:day/:title/
 
+# ------------------------------------------------------------------------------
+#  SEO — Open Graph & Twitter Card
+# ------------------------------------------------------------------------------
+lang: tr-TR
+logo: /assets/images/erocore-og.png
+image: /assets/images/erocore-og.png
+
+twitter:
+  username: EroCores
+  card: summary_large_image
+  creator: "@EroCores"
+
+social:
+  name: EroCore Web Studio
+  links:
+    - https://github.com/EroCores
+
+# SEO Tag'ın her sayfaya uygulaması için varsayılanlar
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/erocore-og.png
+
 # ==============================================================================
 #  YAPILANDIRMA SONU
 # ==============================================================================
