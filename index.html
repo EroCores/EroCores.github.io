@@ -6,14 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#05080f">
 
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-49PB1308Y1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-49PB1308Y1', { anonymize_ip: true });
-    </script>
+   <!-- Google Analytics 4 + KVKK Consent Mode -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update': 500
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-49PB1308Y1', { anonymize_ip: true });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-49PB1308Y1"></script>
 
     <!-- Temel SEO -->
     <meta name="description" content="EroCore Web Studio — İşletmenize özel modern web tasarımı, 3D interaktif deneyimler ve profesyonel geliştirme hizmetleri. Ücretsiz demo ile başlayın.">
