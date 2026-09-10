@@ -1,6 +1,6 @@
 # ==============================================================================
 #  EROCORE WEB STUDIO — JEKYLL / GITHUB PAGES YAPILANDIRMASI
-#  Sürüm     : 2.0.0
+#  Sürüm     : 2.1.0
 #  Uyumluluk : github-pages v232 (jekyll 3.10.x)
 #  Not       : Tema yok — saf statik HTML + CSS + JS mimarisi.
 # ==============================================================================
@@ -95,7 +95,7 @@ plugins:
   - jekyll-titles-from-headings
 
 # ------------------------------------------------------------------------------
-#  07 · VARSAYILAN DEĞERLER (jekyll-seo-tag için OG görseli)
+#  07 · VARSAYILAN DEĞERLER
 # ------------------------------------------------------------------------------
 defaults:
   - scope:
@@ -117,7 +117,7 @@ feed:
 permalink: pretty
 
 # ------------------------------------------------------------------------------
-#  10 · COLLECTIONS (Blog + Vaka Çalışmaları)
+#  10 · COLLECTIONS
 # ------------------------------------------------------------------------------
 collections:
   projects:
@@ -128,32 +128,8 @@ collections:
     permalink: /blog/:year/:month/:day/:title/
 
 # ------------------------------------------------------------------------------
-#  SEO — Open Graph & Twitter Card
+#  11 · GOOGLE ANALYTICS 4
 # ------------------------------------------------------------------------------
-lang: tr-TR
-logo: /assets/images/erocore-og.png
-image: /assets/images/erocore-og.png
-
-twitter:
-  username: EroCores
-  card: summary_large_image
-  creator: "@EroCores"
-
-social:
-  name: EroCore Web Studio
-  links:
-    - https://github.com/EroCores
-
-# SEO Tag'ın her sayfaya uygulaması için varsayılanlar
-defaults:
-  - scope:
-      path: ""
-    values:
-      image: /assets/images/erocore-og.png
-
-      plugins:
-  - jekyll-sitemap
-
 google_analytics: G-49PB1308Y1
 
 # ==============================================================================
