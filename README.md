@@ -7,7 +7,7 @@
 
   <!-- ============================ HERO ============================ -->
 
-  <a href="https://erocores.github.io" target="_blank">
+  <a href="https://erocores.github.io/erocore-web-studio-teklif/" target="_blank">
     <img
       src="https://readme-typing-svg.demolab.com?font=Space+Grotesk&weight=700&size=42&duration=3000&pause=900&color=C9A84C&center=true&vCenter=true&width=900&height=90&lines=EroCore+Web+Studio;Premium+Web+Design+%26+Development;3D+Interactive+Experiences;Modern+Digital+Vitrines"
       alt="EroCore Web Studio"
@@ -26,28 +26,28 @@
 
   <!-- STATUS BADGES -->
 
-  <a href="https://erocores.github.io">
+  <a href="https://erocores.github.io/erocore-web-studio-teklif/">
     <img
-      src="https://img.shields.io/badge/LIVE-erocores.github.io-C9A84C?style=for-the-badge&labelColor=0A0E1A"
+      src="https://img.shields.io/badge/LIVE-erocores.github.io%2Ferocore-web-studio-teklif-C9A84C?style=for-the-badge&labelColor=0A0E1A"
       alt="Live Website"
     />
   </a>
 
-  <a href="https://github.com/EroCores/EroCores.github.io">
+  <a href="https://github.com/EroCores/erocore-web-studio-teklif">
     <img
-      src="https://img.shields.io/github/stars/EroCores/EroCores.github.io?style=for-the-badge&label=STARS&labelColor=0A0E1A&color=C9A84C"
+      src="https://img.shields.io/github/stars/EroCores/erocore-web-studio-teklif?style=for-the-badge&label=STARS&labelColor=0A0E1A&color=C9A84C"
       alt="GitHub Stars"
     />
   </a>
 
-  <a href="https://github.com/EroCores/EroCores.github.io">
+  <a href="https://github.com/EroCores/erocore-web-studio-teklif">
     <img
-      src="https://img.shields.io/github/repo-size/EroCores/EroCores.github.io?style=for-the-badge&label=REPO%20SIZE&labelColor=0A0E1A&color=00F2FE"
+      src="https://img.shields.io/github/repo-size/EroCores/erocore-web-studio-teklif?style=for-the-badge&label=REPO%20SIZE&labelColor=0A0E1A&color=00F2FE"
       alt="Repository Size"
     />
   </a>
 
-  <a href="https://github.com/EroCores/EroCores.github.io/blob/main/LICENSE">
+  <a href="https://github.com/EroCores/erocore-web-studio-teklif/blob/main/LICENSE">
     <img
       src="https://img.shields.io/badge/LICENSE-MIT-4CAF87?style=for-the-badge&labelColor=0A0E1A"
       alt="MIT License"
@@ -449,7 +449,7 @@ E-Ticaret · Yönetim paneli · API · 3D vitrin · Web uygulaması · Özel sis
 <br>
 
 ```text
-EroCores.github.io/
+erocore-web-studio-teklif/
 │
 ├── index.html
 │
@@ -462,8 +462,8 @@ EroCores.github.io/
 │
 ├── assets/
 │   ├── images/
-│   ├── models/
-│   └── fonts/
+│   ├── sounds/
+│   └── models/
 │
 └── .github/
     └── workflows/
@@ -533,9 +533,9 @@ CI/CD
 <h2 align="center">🚀 Yerel Geliştirme</h2>
 
 ```bash
-git clone https://github.com/EroCores/EroCores.github.io.git
+git clone https://github.com/EroCores/erocore-web-studio-teklif.git
 
-cd EroCores.github.io
+cd erocore-web-studio-teklif
 ```
 
 Projeyi herhangi bir statik HTTP sunucusu ile çalıştırabilirsiniz.
@@ -568,7 +568,7 @@ adresini açabilirsiniz.
 
 <div align="center">
 
-<a href="https://erocores.github.io" target="_blank">
+<a href="https://erocores.github.io/erocore-web-studio-teklif/" target="_blank">
 
 <img
 src="https://img.shields.io/badge/ERΟCORE%20WEB%20STUDIO-LIVE%20WEBSITE-C9A84C?style=for-the-badge&labelColor=0A0E1A"
@@ -579,7 +579,7 @@ alt="EroCore Website"
 
 <br><br>
 
-<strong>https://erocores.github.io</strong>
+<strong>https://erocores.github.io/erocore-web-studio-teklif/</strong>
 
 </div>
 
@@ -609,10 +609,10 @@ alt="GitHub"
 
 </a>
 
-<a href="https://erocores.github.io">
+<a href="https://erocores.github.io/erocore-web-studio-teklif/">
 
 <img
-src="https://img.shields.io/badge/WEB-erocores.github.io-00F2FE?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0A0E1A"
+src="https://img.shields.io/badge/WEB-erocores.github.io%2Ferocore-web-studio-teklif-00F2FE?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0A0E1A"
 alt="Website"
 />
 
