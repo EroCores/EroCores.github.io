@@ -1214,3 +1214,104 @@
         init();
     }
 })();
+/* ============================================================
+   KVKK ÇEREZ BİLDİRİMİ — Tercih Yönetimi
+   ============================================================ */
+(function() {
+    'use strict';
+
+    const STORAGE_KEY = 'erocore_cookie_consent';
+    const CONSENT_VERSION = '1.0';
+
+    const banner = document.getElementById('cookieBanner');
+    const acceptBtn = document.getElementById('cookieAcceptAll');
+    const rejectBtn = document.getElementById('cookieRejectAll');
+    const settingsBtn = document.getElementById('cookieSettingsBtn');
+
+    if (!banner) return;
+
+    // Kayıtlı tercihi kontrol et
+    function getConsent() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return null;
+            const data = JSON.parse(raw);
+            // Versiyon değişmişse yeniden sor
+            if (data.version !== CONSENT_VERSION) return null;
+            return data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Tercihi kaydet
+    function saveConsent(choice) {
+        const data = {
+            version: CONSENT_VERSION,
+            choice: choice, // 'all' | 'essential'
+            timestamp: new Date().toISOString()
+        };
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.warn('Cookie consent kaydedilemedi:', e);
+        }
+
+        // Google Analytics'e Consent Mode sinyali gönder
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': choice === 'all' ? 'granted' : 'denied',
+                'ad_storage': choice === 'all' ? 'granted' : 'denied',
+                'ad_user_data': choice === 'all' ? 'granted' : 'denied',
+                'ad_personalization': choice === 'all' ? 'granted' : 'denied'
+            });
+        }
+    }
+
+    // Banner'ı göster
+    function showBanner() {
+        banner.classList.add('show');
+        settingsBtn.classList.remove('show');
+    }
+
+    // Banner'ı gizle
+    function hideBanner() {
+        banner.classList.remove('show');
+        setTimeout(() => {
+            settingsBtn.classList.add('show');
+        }, 500);
+    }
+
+    // Başlangıç kontrolü
+    const existing = getConsent();
+    if (existing) {
+        settingsBtn.classList.add('show');
+        // GA consent mode update
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': existing.choice === 'all' ? 'granted' : 'denied',
+                'ad_storage': existing.choice === 'all' ? 'granted' : 'denied'
+            });
+        }
+    } else {
+        // İlk ziyaret: yarım saniye gecikmeyle göster (sayfa yüklenmesi bozulmasın)
+        setTimeout(showBanner, 800);
+    }
+
+    // Tümünü Kabul Et
+    acceptBtn.addEventListener('click', function() {
+        saveConsent('all');
+        hideBanner();
+    });
+
+    // Sadece Zorunlu
+    rejectBtn.addEventListener('click', function() {
+        saveConsent('essential');
+        hideBanner();
+    });
+
+    // Ayarlar butonuna tıklanınca banner'ı tekrar göster
+    settingsBtn.addEventListener('click', function() {
+        showBanner();
+    });
+})();
