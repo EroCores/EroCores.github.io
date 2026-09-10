@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Sayfa Bulunamadı | EroCore Web Studio</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .error-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      color: #fff;
+    }
+    .error-code {
+      font-size: clamp(6rem, 20vw, 12rem);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+    }
+    .error-title { font-size: 1.75rem; margin: 1rem 0 0.5rem; }
+    .error-text { color: #aaa; max-width: 500px; margin-bottom: 2rem; }
+    .error-btn {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .error-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(123, 47, 247, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <main class="error-page">
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">Sayfa Bulunamadı</h2>
+    <p class="error-text">
+      Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir.
+      Ana sayfaya dönerek devam edebilirsiniz.
+    </p>
+    <a href="/" class="error-btn">← Ana Sayfaya Dön</a>
+  </main>
+</body>
+</html>
